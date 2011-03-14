@@ -8,7 +8,7 @@
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
 # Use 1 to enable and 0 to disable.
-GSD=0
+GSD=1
 
 
 # Initial code starts below, under the MAIN section.
