@@ -149,7 +149,7 @@ else
 	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 
 	if [ ! -f ${configACPIfile} ] && [ ! -f ${configEFIfile} ] && [ ! -f ${configSMBIOSfile} ] && [ ! -f ${configSETTINGSfile} ] ; then
-		echo "("${menuItemNumber}") "${attrBlue}"Build User Config data:"${attrNormal}"    "${attrRed}"*** NOT Generated ***"${attrNormal}
+		echo "("${menuItemNumber}") "${attrBlue}"Build User Config data:"${attrNormal}"  "${attrRed}"*** Not yet generated ***"${attrNormal}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Config"
 	else
 		if [ -f ${configACPIfile} ]; then
@@ -214,7 +214,11 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 	a=${menuItemsArray[userInput-1]}
 	case "$a" in
 		"")
-			echo "You must select one of the above!";echo "Hit Enter to see menu again!" ;;
+			clear; echo
+			echo ${attrRed}"Error: Number entered is not an available option"${attrNormal}
+			echo ""
+			echo "Please press ENTER to return to the menu" 
+			read ;;
 		'Source')
 			"$scriptDir"/"$a".sh "${GSD}" "${revSourceFullWorkingPath}" "${revSourceFolderName}" "${WorkDir}" 
 			RefreshMenu
@@ -257,7 +261,11 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			exit ;;
 	esac
 else
-	echo "Error: input wasn't a number, please re-try."
+	clear; echo
+	echo ${attrRed}"Error: input wasn't a number"${attrNormal}
+	echo ""
+	echo "Please press ENTER to return to the menu"
+	read
 fi
 RefreshMenu
 }
