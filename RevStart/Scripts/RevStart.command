@@ -28,12 +28,6 @@ UpdateGlobalPaths()
 		revSourceFolderName="Unknown"	
 		echo "$revSourceFolderName" >"${WorkDir}"/.RevSrcName	
 	fi
-	if [ -f "${WorkDir}"/.MediaName ]; then
-		MediaName=`cat "${WorkDir}"/.MediaName`
-	else
-		MediaName="Unknown"	
-	fi
-	bootMediaFullPath="/Volumes/""${MediaName}"
 	revSourceFullWorkingPath="${projRevDir}"/"${revSourceFolderName}"
 	configACPIfile="${revSourceFullWorkingPath}"/i386/config/ACPI/data.h
 	configEFIfile="${revSourceFullWorkingPath}"/i386/config/EFI/data.h
@@ -249,11 +243,11 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			RefreshMenu
 			;;
 		'Compile')
-			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "${MediaMode}" "${revStartDir}" "No" "${bootMediaFullPath}" "Compile"
+			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "Compile"
 			RefreshMenu
 			;;
 		'Clean')
-			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "${MediaMode}" "${revStartDir}" "No" "${bootMediaFullPath}" "Clean"
+			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "Clean"
 			RefreshMenu
 			;;
 		'Refresh')
@@ -308,7 +302,6 @@ projRevDir=${revStartDir%/RevStart*}
 WorkDir="${revStartDir}"/Build
 
 versionNumber="2.0"
-stage0Loader="boot0"
 
 
 # --------------------------------------------------------------
@@ -342,7 +335,7 @@ else
 fi
 
 IVERS="2.0"
-VERS="RevoBoot ToolBox $IVERS"
+VERS="RevoBoot ToolBox (Simple Version) $IVERS"
 LVERS="${VERS} by STLVNUB and blackosx"
 
 
@@ -358,7 +351,7 @@ attrNormal=$( echo -en '\033[0m'; echo )
 
 
 # --------------------------------------------------------------
-# Let's start the show runningâ€¦..
+# Let's start the show runningâ..
 
 RefreshMenu
 
