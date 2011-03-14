@@ -28,7 +28,7 @@ UpdateGlobalPaths()
 		revSourceFolderName="Unknown"	
 		echo "$revSourceFolderName" >"${WorkDir}"/.RevSrcName	
 	fi
-	revSourceFullWorkingPath="${projRevDir}"/"${revSourceFolderName}"
+	revSourceFullWorkingPath="${revSourceContainerDir}"/"${revSourceFolderName}"
 	configACPIfile="${revSourceFullWorkingPath}"/i386/config/ACPI/data.h
 	configEFIfile="${revSourceFullWorkingPath}"/i386/config/EFI/data.h
 	configSMBIOSfile="${revSourceFullWorkingPath}"/i386/config/SMBIOS/data.h
@@ -118,10 +118,21 @@ if [ ${compilerExist} == Yes ]; then
 else
 	echo "    Developer Tools:     "${attrRed}"*** Not installed ***"${attrNormal}
 fi
+
 if [ ! -d "${revSourceFullWorkingPath}" ]; then
+	echo ""
+	echo ${attrGrey}"    SOURCE CODE:             Description"${attrNormal}
+	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot"
+	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
 	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrNormal}"      $revSourceFolderName"${attrRed}"   *** NOT FOUND ***"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 else
+	echo ""
+	echo ${attrGrey}"    SOURCE CODE:             Description"${attrNormal}
+	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot"
+	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
 	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrNormal}"      $revSourceFolderName"
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 
@@ -219,6 +230,10 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			echo ""
 			echo "Please press ENTER to return to the menu" 
 			read ;;
+		'Download')
+			"$scriptDir"/"$a".sh "${GSD}" "${revSourceContainerDir}" "${WorkDir}" 
+			RefreshMenu
+			;;
 		'Source')
 			"$scriptDir"/"$a".sh "${GSD}" "${revSourceFullWorkingPath}" "${revSourceFolderName}" "${WorkDir}" 
 			RefreshMenu
@@ -305,6 +320,11 @@ scriptDir=$(cd -P -- $(dirname -- "$0") && pwd -P)
 revStartDir=${scriptDir%/Scripts*}
 # Move up in to the ProjectRevolution dir and record that location
 projRevDir=${revStartDir%/RevStart*}
+# RevoBoot source container dir
+revSourceContainerDir=${projRevDir}/RevoBoot_SourceCode
+if [ ! -d "${revSourceContainerDir}" ]; then
+	mkdir "${revSourceContainerDir}"
+fi
 
 # Set the working directory for this project to use the Build folder.
 WorkDir="${revStartDir}"/Build

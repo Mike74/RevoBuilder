@@ -27,7 +27,7 @@ fi
 
 echo ""
 echo "====================================================="
-echo "        Revolution source code folder name."
+echo "    Change the RevoBoot source code folder name."
 echo "*****************************************************"
 
 if [ ! -d "${RevSourceFullWorkingPath}" ]; then
@@ -41,13 +41,12 @@ else # User wants to change the name
 	echo ""
 fi
 
-echo ""
 echo "I currently have it set at $RevSourceFolderName"
 echo ""
 echo "To change the name of the source folder, either:"
 echo ""
-echo "* Copy and paste the name of the Revolution source folder."
-echo "* Type the name of the Revolution source folder."
+echo "* Copy and paste the new name of the Revolution source folder."
+echo "* Type the new name of the Revolution source folder."
 echo "* Press ENTER to leave it as it is."
 echo ""
 read UserNum1
