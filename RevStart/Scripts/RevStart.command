@@ -8,7 +8,7 @@
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
 # Use 1 to enable and 0 to disable.
-GSD=1
+GSD=0
 
 
 # Initial code starts below, under the MAIN section.
@@ -300,6 +300,9 @@ projRevDir=${revStartDir%/RevStart*}
 
 # Set the working directory for this project to use the Build folder.
 WorkDir="${revStartDir}"/Build
+if [ ! -d "${WorkDir}" ]; then
+	mkdir "${WorkDir}"
+fi
 
 versionNumber="2.0"
 
