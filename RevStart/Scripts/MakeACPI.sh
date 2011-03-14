@@ -23,7 +23,16 @@ fi
 
 #Ê=====================================================
 if [ ! -d "${WorkDir}"/ACPI ]; then
-	echo "Generating ALL ACPI Aml Tables"
+	echo ""
+	echo "Your system's ACPI tables will be extracted and then"
+	echo "saved in Revstart's BUILD/ACPI folder."
+	echo ""
+	echo "Those tables will then be converted in to a data format"
+	echo "which RevoBoot can use for static data. These will then"
+	echo "be saved in Revstart's BUILD/STATIC folder."
+
+	echo ""
+	echo "Extracting all ACPI .aml tables"
 
 	if [ -d "${WorkDir}"/ACPI ]; then
 		rm -rf "${WorkDir}"/ACPI
@@ -47,6 +56,7 @@ if [ ! -d "${WorkDir}"/ACPI ]; then
 	re='"([^"]+)"=<([^>]+)>'
 	dumped=0
 
+	# is this code from zhell's script?
 	for t in "${tables[@]}"; do
    	#echo Table: $t
    	if [[ $t =~ $re ]]; then
