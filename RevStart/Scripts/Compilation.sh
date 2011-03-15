@@ -25,6 +25,12 @@ Compile()
 	else
 		echo "boot Compiled OK"
 		sleep 2
+		echo ""
+		echo "Opening location of compiled boot file"
+		open "${RevSourceFullWorkingPath}"/sym/i386
+		echo ""
+		echo "Press any key to return to the main menu"
+		read
 	fi		
 	cd ..
 }	
