@@ -37,9 +37,9 @@ In the ProjectRevolution folder you will find this ReadMe and a folder named Rev
 In the RevStart folder you will see two folders: Resources and Scripts.
 Note: A folder named Build appears after the script has first been run.
 
-	•	The Build folder is used by the RevStart script to hold most of the files it creates.
-	•	The Resources folder doesn't need to be touched and holds essential files needed by RevStart.
-	•	The Scripts folder houses all the scripts used in the RevStart process.
+	*	The Build folder is used by the RevStart script to hold most of the files it creates.
+	*	The Resources folder doesn't need to be touched and holds essential files needed by RevStart.
+	*	The Scripts folder houses all the scripts used in the RevStart process.
 
 There is also an alias to the main RevStart script which is all that's needed to be run.
 
@@ -62,17 +62,17 @@ These have been setup to follow the approach that I would do when wanting to use
 
 The steps described above are show in the menu as:
 
-	•	Toggle DebugMode
+	*	Toggle DebugMode
 		With this enabled, all debug options in RevoBoot's settings.h will be set to 1.
 		This is just a quick way of doing so, rather than manually doing it a bit later.
 		However, RevoGirl doesn't recommend they're all used at once.
 
-	•	Toggle Target OS:	
+	*	Toggle Target OS:	
 		Enables some directives in settings.h to suit booting either 10.6 or 10.7.
 		Snow Leopard, for now, will be the main target to choose from, though booting Lion option is being worked on.
 		To test booting Lion, enable this to Lion.
 
-	• User Config data built:
+	*	User Config data built:
 		The RevoBoot source code needs config files specific to your machine. 
 		On the first run, this will read *** NOT Generated ***as it doesn't yet exist.
 		Selecting this option will send RevStart off to gather the necessary information.
@@ -81,18 +81,18 @@ The steps described above are show in the menu as:
 		These are converted in to data structures that RevoBoot uses and written to RevoBoot's source config folder
 		Once these have been saved, the settings.h file is created based on the data collected.
 
-	• Edit settings.h
+	*	Edit settings.h
 		This option opens the settings.h file for editing in the default app for that filetype.
 		The automatically generated settings.h file will not be perfect and will most probably need tweaking.
 		As to know what to change? well that's for finding out for now, by reading the topic at InsanelyMac.
 
-	• TrashConfig
+	*	TrashConfig
 		Once the config files have been created, this option appears and allows you to delete them.
 
-	• Compile
+	*	Compile
 		Once the config files have been created, and you're happy with the Settings.h file then RevoBoot is ready to compile.
 
-	• Clean
+	*	Clean
 		If RevoBoot has already been compiled, then the option for removing the compelled files appears.
 
 
