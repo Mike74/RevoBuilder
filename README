@@ -51,7 +51,7 @@ If it's the first time you've run the script, then you see a short welcome messa
 Main Menu
 The menu that RevStart shows you is dynamic and will change depending on the things it knows. For instance, if you don't have the Apple developer tools installed then the options to compile RevoBoot won't be available. Also, if the script can't find the RevoBoot source code folder then you will only see four menu options: one to download the latest source code, another to type the name of an existing source code folder, another to refresh the menu and a fourth to exit the script.
 
-You can select option (1) Download to grab the lastest version of the RevoBoot source code from the git repository. NOTE: you will need to have a git account set up before you can do this. See http://help.github.com/mac-set-up-git for more info.
+You can select option (1) Download to grab the lastest version of the RevoBoot source code from the git repository. NOTE: you will need to have git set up on your machine before you can do this. See http://help.github.com/mac-set-up-git for more info.
 
 Once you have a git setup, the source can be downloaded and will be added to the RevoBoot_SourceCode folder and the source folder will be renamed with using the version/revision number used in the source code. If you already have this folder in the RevoBoot_SourceCode folder then the existing source code folder will be renamed by having the time appended to the end so as not to overwrite it.
 

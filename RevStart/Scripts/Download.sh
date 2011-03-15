@@ -23,14 +23,6 @@ else
 fi
 
 
-# Has the user entered their username before?
-if [ -f "${WorkDir}"/.GitUserName ]; then
-	gitUserName=`cat "${WorkDir}"/.GitUserName`
-else
-	gitUserName=""
-fi
-
-cd ${revSourceContainerDir}
 
 
 echo ""
@@ -38,31 +30,26 @@ echo "====================================================="
 echo "           Download RevoBoot source code."
 echo "*****************************************************"
 echo ""
-if [ "$gitUserName" != "" ]; then
-	echo "I have your git username as: "${gitUserName}
-	echo "So I'll use that to download source."
-else
-	echo "For downloading the latest RevoBoot source code you"
-	echo "will need two things:"
-	echo "   1) a registered git account"
-	echo "   2) git installed on your machine"
-	echo ""
-	echo "If you don't already have a git account, then visit"
-	echo "http://help.github.com/mac-set-up-git to find out how."
-	echo "For now, you can press X to return to the main menu."
-	echo ""
-	echo "If you already have git setup on your machine then"
-	echo "please enter your registered git username:"
-	echo ""
-	read gitUserName
-fi
 
-if [ "$gitUserName" != "" ] && [ "$gitUserName" != "X" ]; then
+cd ${revSourceContainerDir}
+
+echo "For downloading the latest RevoBoot source code you"
+echo "will need git installed on your machine."
+echo ""
+echo "If you don't already have a git set up, then visit"
+echo "http://help.github.com/mac-set-up-git to find out how."
+echo "For now, you can press X to return to the main menu."
+echo ""
+echo "If you already have git setup on your machine then"
+echo "press ENTER to continue"
+echo ""
+read UserInput
+
+if [ "$UserInput" != "X" ]; then
 	echo ""
-	echo "Attempting to connect to the git repository . . . ."
-	echo "If successful, you'll be asked for your git password"
+	echo "Attempting to connect to the git repository..."
 	echo ""
-	git clone https://${gitUserName}@github.com/RevoGirl/RevoBoot.git
+	git clone http://github.com/RevoGirl/RevoBoot.git
 	echo ""
 
 	# this assumes the downloaded source folder name is 'RevoBoot'
@@ -92,28 +79,20 @@ if [ "$gitUserName" != "" ] && [ "$gitUserName" != "X" ]; then
 		echo ""
 		echo "Please press ENTER to return to the menu"
 		read
+
+		# change permissions of the RevoBoot folder so it's writeable
+		chmod -R 777 ${revoSourceName}"-"${RevoVersion}-${RevoRevision}
 	else
 		echo "Download failed. Please press ENTER to return to the menu"
 		read
 	fi
 
-	# change permissions of the RevoBoot folder so it's writeable
-	chmod -R 777 ${revoSourceName}"-"${RevoVersion}-${RevoRevision}
-
-	# before leaving, let's save the users git username for future reference
-	echo "$gitUserName" >"${WorkDir}"/.GitUserName
-
 	# And we'll save the source folder name so the RevStart script picks it up
 	echo "RevoBoot-"${RevoVersion}-${RevoRevision} >"${WorkDir}"/.RevSrcName
 
 else
-	if [ "$gitUserName" != "X" ]; then
-		echo "ERROR - No username entered."
-		echo "Press ENTER to return to the main menu."
-		read
-	else
-		echo "Returning to the main menu."
-	fi
+	echo "Press ENTER to return to the main menu."
+	read
 fi
 
 exit 0
