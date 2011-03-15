@@ -85,7 +85,7 @@ if [ "$gitUserName" != "" ] && [ "$gitUserName" != "X" ]; then
 			echo "Warning: You already have the same version of source code downloaded."
 			echo "Fixing:  Appending current time to previous source code folder name."
 			appendTime=$( date "+%H-%M-%S" )
-			mv ${newSourceFolderName} ${newSourceFolderName}" "${appendTime}
+			mv ${newSourceFolderName} ${newSourceFolderName}"-"${appendTime}
 			mv ${revoSourceName} ${newSourceFolderName}
 		fi
 		echo "Done. Now using source version RevoBoot-"${RevoVersion}-${RevoRevision}

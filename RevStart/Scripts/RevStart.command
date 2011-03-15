@@ -8,7 +8,7 @@
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
 # Use 1 to enable and 0 to disable.
-GSD=0
+GSD=1
 
 
 # Initial code starts below, under the MAIN section.
@@ -75,6 +75,10 @@ if [ "$GSD" = "1" ]; then
 	echo "DEBUG: WorkDir: ${WorkDir}"
 	echo "DEBUG: revSourceFullWorkingPath: ${revSourceFullWorkingPath}"
 	echo "DEBUG: versionNumber: ${versionNumber}"
+	echo "DEBUG configACPIfile: ${configACPIfile}"
+	echo "DEBUG configEFIfile: ${configEFIfile}"
+	echo "DEBUG configSMBIOSfile: ${configSMBIOSfile}"
+	echo "DEBUG configSETTINGSfile: ${configSETTINGSfile}"
 fi
 echo ""
 }
@@ -102,9 +106,13 @@ UpdateGlobalPaths
 clear
 Debug
 
-# Initialise two vars for using with the dynamic menu
+# Initialise vars for using with the dynamic menu
 menuItemNumber=1
 TheOutputItems=""
+hasACPI=""
+hasEFI=""
+hasSMBIOS=""
+hasSettings=""
 
 # ----------------------------------------------------------------------------------------
 # Work out which menu items should be displayed in the main menu.
