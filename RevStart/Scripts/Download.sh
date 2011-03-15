@@ -59,7 +59,7 @@ fi
 
 if [ "$gitUserName" != "" ] && [ "$gitUserName" != "X" ]; then
 	echo ""
-	echo "Attempting to connect to the git repository."
+	echo "Attempting to connect to the git repository . . . ."
 	echo "If successful, you'll be asked for your git password"
 	echo ""
 	git clone https://${gitUserName}@github.com/RevoGirl/RevoBoot.git
@@ -77,20 +77,18 @@ if [ "$gitUserName" != "" ] && [ "$gitUserName" != "X" ]; then
 		newSourceFolderName=${revoSourceName}"-"${RevoVersion}-${RevoRevision}
 
 		# Rename folder by appending version / revision numbers
-		echo "Renaming source code folder with version number"
+		echo "Renaming source code folder with version number of source..."
 		# check the new folder doesn't already exist
 		if [ ! -d ${newSourceFolderName} ]; then
 			mv ${revoSourceName} ${newSourceFolderName}
 		else
-			echo "You already have the same source downloaded."
-			echo "Appending current time to previous source code folder name."
+			echo "Warning: You already have the same version of source code downloaded."
+			echo "Fixing:  Appending current time to previous source code folder name."
 			appendTime=$( date "+%H-%M-%S" )
-			echo ${appendTime}
 			mv ${newSourceFolderName} ${newSourceFolderName}" "${appendTime}
 			mv ${revoSourceName} ${newSourceFolderName}
 		fi
-		echo "Done."
-		echo "Now using source version RevoBoot-"${RevoVersion}-${RevoRevision}
+		echo "Done. Now using source version RevoBoot-"${RevoVersion}-${RevoRevision}
 		echo ""
 		echo "Please press ENTER to return to the menu"
 		read
