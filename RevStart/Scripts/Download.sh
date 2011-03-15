@@ -83,8 +83,10 @@ if [ "$gitUserName" != "" ] && [ "$gitUserName" != "X" ]; then
 			mv ${revoSourceName} ${newSourceFolderName}
 		else
 			echo "You already have the same source downloaded."
-			echo "Appending 'backup' to previous source code folder name."
-			mv ${newSourceFolderName} ${newSourceFolderName}" backup"
+			echo "Appending current time to previous source code folder name."
+			appendTime=$( date "+%H-%M-%S" )
+			echo ${appendTime}
+			mv ${newSourceFolderName} ${newSourceFolderName}" "${appendTime}
 			mv ${revoSourceName} ${newSourceFolderName}
 		fi
 		echo "Done."

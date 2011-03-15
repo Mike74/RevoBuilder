@@ -21,7 +21,11 @@ else
 fi
 
 
-#Ê=====================================================
+echo ""
+echo "====================================================="
+echo "         Extract your system's ACPI tables."
+echo "*****************************************************"
+
 if [ ! -d "${WorkDir}"/ACPI ]; then
 	echo ""
 	echo "Your system's ACPI tables will be extracted and then"
@@ -30,8 +34,10 @@ if [ ! -d "${WorkDir}"/ACPI ]; then
 	echo "Those tables will then be converted in to a data format"
 	echo "which RevoBoot can use for static data. These will then"
 	echo "be saved in Revstart's BUILD/STATIC folder."
-
 	echo ""
+	echo "Press any key to commence"
+	read
+
 	echo "Extracting all ACPI .aml tables"
 
 	if [ -d "${WorkDir}"/ACPI ]; then
@@ -71,12 +77,15 @@ if [ ! -d "${WorkDir}"/ACPI ]; then
 	echo "ACPI Tables Are Ready In ACPI Folder"
 else
 	echo ""
-	echo "ACPI Tables have already be made, so I did't re-make them."
-	echo "If you want to re-make them then use the TranshConfig"
-	echo "option first then re-run this command."
+	echo "Your system's ACPI tables have previously been extracted."
+	echo "If you want to re-extract them then run the TrashConfig"
+	echo "option from the main menu then re-run this command."
 	echo ""
-	#echo "Press ENTER to continue."
-	#read
+	echo "For now, I will use your existing extracted ACPI tables"
+	echo "to create the static data files for using with RevoBoot."
+	echo ""
+	echo "Press any key to commence"
+	read
 fi	
 
 exit 0

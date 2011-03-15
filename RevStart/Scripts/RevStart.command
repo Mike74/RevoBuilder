@@ -160,7 +160,7 @@ else
 	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 
 	if [ ! -f ${configACPIfile} ] && [ ! -f ${configEFIfile} ] && [ ! -f ${configSMBIOSfile} ] && [ ! -f ${configSETTINGSfile} ] ; then
-		echo "("${menuItemNumber}") "${attrBlue}"Build User Config data:"${attrNormal}"  "${attrRed}"*** Not yet generated ***"${attrNormal}
+		echo "("${menuItemNumber}") "${attrBlue}"Build User Config:"${attrNormal}"      "${attrRed}"*** Not yet generated ***"${attrNormal}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Config"
 	else
 		if [ -f ${configACPIfile} ]; then
@@ -175,7 +175,7 @@ else
 		if [ -f ${configSETTINGSfile} ]; then
 			hasSettings="Settings.h"
 		fi
-		echo "("${menuItemNumber}") "${attrBlue}"User Config data built:"${attrNormal}"  "${hasACPI} ${hasEFI} ${hasSMBIOS} ${hasSettings}
+		echo "("${menuItemNumber}") "${attrBlue}"Rebuild Config data:"${attrNormal}"     Currently built: "${hasACPI} ${hasEFI} ${hasSMBIOS} ${hasSettings}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Config"
 
 	fi

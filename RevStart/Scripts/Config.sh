@@ -536,8 +536,8 @@ else
 fi
 
 # Initialise default flags for STLVNUB
-UseA20=Yes
-AutoGFX=No
+UseA20=No #UseA20=Yes
+AutoGFX=Yes #AutoGFX=No
 
 # Run main functions to build config
 DoRevoConfigDataH
