@@ -1,4 +1,4 @@
-ProjectRevolution 
+RevoBuilder 
 
 This package is something to help new users get started with RevoBoot. It started life as a script by me to help generate the settings.h config file. Then STLVNUB wrapped my simple script in to a much larger, full featured package giving a wider array of options. 
 
@@ -32,7 +32,7 @@ Configuring the config files required by RevoBoot can be a bit bewildering at fi
 
 Package setup
 
-In the ProjectRevolution folder you will find this ReadMe and a folder named Revstart. Note: A folder will appear in the ProjectRevolution folder named RevoBoot_SourceCode once the RevStart script is furst run.
+In the RevoBuilder folder you will find this ReadMe a folder named Revstart and a link named DoubleClickMe which points to the main Revstart script in the /RevStart/Scripts folder. Note: A folder will appear in the RevoBuilder folder named RevoBoot_SourceCode once the RevStart script is furst run.
 
 In the RevStart folder you will see two folders: Resources and Scripts.
 Note: A folder named Build appears after the script has first been run.
@@ -44,7 +44,7 @@ Note: A folder named Build appears after the script has first been run.
 There is also an alias to the main RevStart script which is all that's needed to be run.
 
 How to Use
-Run the RevStart script and you will be asked for your authentication to allow the script to proceed and present you with the RevStart menu. Hopefully it's not too confusing to look at, but the idea is all words coloured blue are options which you can choose from and they are now numbered to help choosing each option easy. Selecting and option from the menu is as easy as typing the number and pressing return.
+Double click the DoubleClickMe file to run the RevStart script and you will be asked for your authentication to allow the script to proceed and present you with the RevStart menu. Hopefully it's not too confusing to look at, but the idea is all words coloured blue are options which you can choose from and they are now numbered to help choosing each option easy. Selecting and option from the menu is as easy as typing the number and pressing return.
 
 If it's the first time you've run the script, then you see a short welcome message.
 

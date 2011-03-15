@@ -119,52 +119,52 @@ hasSettings=""
 
 clear;echo;echo ${attrBlackBold}"Welcome To ${LVERS}"${attrNormal}
 echo ""
-echo ${attrGrey}"    ENVIRONMENT:             Description"${attrNormal}
+echo ${attrBlack}"    ENVIRONMENT:             Description"${attrNormal}
 echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 if [ ${compilerExist} == Yes ]; then
-	echo "    Developer Tools:         Installed"
+	echo ${attrBlue}"    Developer Tools:"${attrNormal}"         "${attrGreen}"Installed"
 else
-	echo "    Developer Tools:     "${attrRed}"*** Not installed ***"${attrNormal}
+	echo ${attrBlue}"    Developer Tools:"${attrNormal}"     "${attrRed}"*** Not installed ***"${attrNormal}
 fi
 
 if [ ! -d "${revSourceFullWorkingPath}" ]; then
 	echo ""
-	echo ${attrGrey}"    SOURCE CODE:             Description"${attrNormal}
+	echo ${attrBlack}"    SOURCE CODE:             Description"${attrNormal}
 	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
-	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot"
+	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot from git"
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
 	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrNormal}"      $revSourceFolderName"${attrRed}"   *** NOT FOUND ***"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 else
 	echo ""
-	echo ${attrGrey}"    SOURCE CODE:             Description"${attrNormal}
+	echo ${attrBlack}"    SOURCE CODE:             Description"${attrNormal}
 	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
-	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot"
+	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot from git"
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
-	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrNormal}"      $revSourceFolderName"
+	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrGreen}"      $revSourceFolderName"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 
 	echo ""
-	echo ${attrGrey}"    REVOBOOT OPTIONS:        Description"${attrNormal}
+	echo ${attrBlack}"    REVOBOOT OPTIONS:        Description"${attrNormal}
 	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 
 	if [ "$DebugEnabled" == Yes ]; then
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        Yes. RevoBoot will show detailed info at boot."
+		echo "("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        Yes. RevoBoot will show detailed info at boot"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
 	else
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        No. RevoBoot will show grey Apple logo screen."
+		echo "("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        No. RevoBoot will show grey Apple logo screen"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
 	fi
 	if [ "$targetOS" == LION ]; then
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Lion - Build RevoBoot for booting 10.7."
+		echo "("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Lion - Build RevoBoot for booting 10.7"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
 	else
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Snow Leopard - Build RevoBoot for booting 10.6."
+		echo "("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Snow Leopard - Build RevoBoot for booting 10.6"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
 	fi
 
 	echo ""
-	echo ${attrGrey}"    YOUR SETTINGS:           Description"${attrNormal}
+	echo ${attrBlack}"    YOUR SETTINGS:           Description"${attrNormal}
 	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 
 	if [ ! -f ${configACPIfile} ] && [ ! -f ${configEFIfile} ] && [ ! -f ${configSMBIOSfile} ] && [ ! -f ${configSETTINGSfile} ] ; then
@@ -191,16 +191,16 @@ else
 	if [ -f "${configSETTINGSfile}" ]; then
 		echo "("${menuItemNumber}") "${attrBlue}"Edit settings.h"${attrNormal}"          Edit your config file: Settings.h"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Edit"
-		echo "("${menuItemNumber}") "${attrBlue}"TrashConfig"${attrNormal}"              Delete all static data and config files."
+		echo "("${menuItemNumber}") "${attrBlue}"TrashConfig"${attrNormal}"              Delete all static data and config files"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" TrashConfig"
 
 		echo ""
-		echo ${attrGrey}"    BUILD REVOBOOT:          Description"${attrNormal}
+		echo ${attrBlack}"    BUILD REVOBOOT:          Description"${attrNormal}
 		echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 
-		echo "("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot boot file."
+		echo "("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Compile"
-		echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files."
+		echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
 	fi
 
@@ -208,7 +208,7 @@ else
 	# but without the config/settings.h file
 	# if this happens then still show the 'Clean' option to allow removal of them.
 	if [ -d "${revSourceFullWorkingPath}"/sym ] && [ ! -f "${configSETTINGSfile}" ]; then
-		echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files."
+		echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
 	fi
 fi
@@ -326,7 +326,7 @@ fi
 scriptDir=$(cd -P -- $(dirname -- "$0") && pwd -P)
 # Move up in to the RevStart dir and record that location
 revStartDir=${scriptDir%/Scripts*}
-# Move up in to the ProjectRevolution dir and record that location
+# Move up in to the RevoBuilder dir and record that location
 projRevDir=${revStartDir%/RevStart*}
 # RevoBoot source container dir
 revSourceContainerDir=${projRevDir}/RevoBoot_SourceCode
@@ -340,7 +340,7 @@ if [ ! -d "${WorkDir}" ]; then
 	mkdir "${WorkDir}"
 fi
 
-versionNumber="2.0"
+versionNumber="1.0"
 
 
 # --------------------------------------------------------------
@@ -373,8 +373,8 @@ else
 	targetOS="SNOW_LEOPARD"	
 fi
 
-IVERS="2.0"
-VERS="RevoBoot ToolBox (Simple Version) $IVERS"
+IVERS="1.0"
+VERS="RevoBuilder $IVERS"
 LVERS="${VERS} by STLVNUB and blackosx"
 
 
@@ -385,7 +385,8 @@ attrBlackBold=$( echo -en '\033[1m' )
 attrGreen=$( echo -en '\033[32m' )
 attrRed=$( echo -en '\033[1;31m' )
 attrBlue=$( echo -en '\033[36m' )
-attrGrey=$( echo -en '\033[37m' )
+attrGrey=$( echo -en '\033[1;37m' )
+attrBlack=$( echo -en '\033[30m' )
 attrNormal=$( echo -en '\033[0m'; echo )
 
 

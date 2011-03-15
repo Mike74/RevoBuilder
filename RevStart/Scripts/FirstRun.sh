@@ -4,7 +4,7 @@ clear
 
 echo ""
 echo "******************************************************************"
-echo "                   Welcome to ProjectRevolution."
+echo "                     Welcome to RevoBuilder."
 echo "******************************************************************"	
 echo ""
 echo "This package is meant to help you get started with RevoBoot."
