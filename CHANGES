@@ -1,0 +1,15 @@
+RevoBuilder V1.0.2
+==================
+- README file changed to point the user to my git wiki.
+- Added 'RevoBuilder options' sub heading to main menu with 'Help' option which opens my wiki on git.
+- Changed version number in Revstart script.
+- Note: The version numbering is not working with RevoGirl's RevoBoot v1.0.04 as the VERSION file is missing from her source. This will be addressed with my next update, once RevoGirl addresses this issue.
+
+RevoBuilder V1.0.1
+==================
+- Changed how RevoBoot version/revision naming is appended to source folder name to suit RevoBoot v1.0.03
+- Changed version number in Revstart script.
+
+RevoBuilder V1.0
+==================
+- Initial Version released on 15th March 2011
