@@ -187,7 +187,7 @@ else
 		if [ -f ${configSETTINGSfile} ]; then
 			hasSettings="Settings.h"
 		fi
-		echo "("${menuItemNumber}") "${attrBlue}"Rebuild Config data:"${attrNormal}"     Currently built: "${hasACPI} ${hasEFI} ${hasSMBIOS} ${hasSettings}
+		echo "("${menuItemNumber}") "${attrBlue}"Rebuild Config data:"${attrNormal}"     "${attrGreen}"Currently built: "${hasACPI} ${hasEFI} ${hasSMBIOS} ${hasSettings}${attrNormal}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Config"
 
 	fi
