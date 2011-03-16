@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # Revstart main script.
-# Written by STLVNUB and blackosx
+# Original idea and configuration script by blackosx.
+# STLVNUB wrapped blackosx's script with a full featured script application.
+# STLVNUB has continued his work with ProjectRevolution.
+# Blackosx continued work here with a simpler RevoBuilder.
 # Jan-Mar 2011
 
-versionNumber="1.0.1"
+versionNumber="1.0.2"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -215,9 +218,13 @@ else
 fi
 
 echo ""
-echo "("${menuItemNumber}") "${attrBlue}"Refresh Menu"${attrNormal}"             Redraws the menu."
+echo ${attrBlack}"    REVOBUILDER OPTIONS:      Description"${attrNormal}
+echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+echo "("${menuItemNumber}") "${attrBlue}"Help"${attrNormal}"                     Read instructions on my wiki at git"
+((menuItemNumber++)); TheOutputItems=$TheOutputItems" Help"
+echo "("${menuItemNumber}") "${attrBlue}"Refresh Menu"${attrNormal}"             Redraw the menu"
 ((menuItemNumber++)); TheOutputItems=$TheOutputItems" Refresh"
-echo "("${menuItemNumber}") "${attrBlue}"Exit"${attrNormal}"                     End the script."
+echo "("${menuItemNumber}") "${attrBlue}"Exit"${attrNormal}"                     End the script"
 ((menuItemNumber++)); TheOutputItems=$TheOutputItems" exit"
 echo ""
 
@@ -277,6 +284,9 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 		'Clean')
 			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "Clean"
 			RefreshMenu
+			;;
+		'Help')
+			open https://github.com/blackosx/RevoBuilder/wiki/_pages
 			;;
 		'Refresh')
 			RefreshMenu
