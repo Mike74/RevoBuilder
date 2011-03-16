@@ -1,6 +1,8 @@
 RevoBuilder V1.0.4
 ==================
 - Updated config.h to duplicate /config/data-template.h to data.h to now successfully compile RevoBoot v1.0.04.
+- Change menu so it only shows 'Clean' option is RevoBoot has been compiled.
+- Change menu to show built config data in green.
 - Changed version number in Revstart script.
 
 evoBuilder V1.0.3
