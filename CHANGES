@@ -1,4 +1,9 @@
-RevoBuilder V1.0.3
+RevoBuilder V1.0.4
+==================
+- Updated config.h to duplicate /config/data-template.h to data.h to now successfully compile RevoBoot v1.0.04.
+- Changed version number in Revstart script.
+
+evoBuilder V1.0.3
 ==================
 - Updated download.sh script to work with RevoBoot v1.0.04's version numbering.
 - Changed compilation.sh to wait for user input if compilation fails.

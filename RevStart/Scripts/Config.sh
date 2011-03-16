@@ -543,6 +543,13 @@ AutoGFX=Yes #AutoGFX=No
 DoRevoConfigDataH
 DoRevoConfigSettingsH
 
+
+# Duplicate the /i386/config/data-template.h to data.h
+# Move up in to the RevoBuilder dir and record that location
+projConfigDir=${configACPIfile%/ACPI/data.h*}
+cp ${projConfigDir}/data-template.h ${projConfigDir}/data.h
+
+
 exit 0
 
 
