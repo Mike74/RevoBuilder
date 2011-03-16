@@ -20,7 +20,11 @@ Compile()
 	echo "Compiling Revolution..."
 	make 
 	if [ ! -f "${RevSourceFullWorkingPath}"/sym/i386/boot ];then
+		echo ""
 		echo "Compilation Failed."
+		echo ""
+		echo "Press any key to return to the main menu"
+		read
 		exit 1
 	else
 		echo "boot Compiled OK"

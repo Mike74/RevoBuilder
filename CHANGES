@@ -1,3 +1,9 @@
+RevoBuilder V1.0.3
+==================
+- Updated download.sh script to work with RevoBoot v1.0.04's version numbering.
+- Changed compilation.sh to wait for user input if compilation fails.
+- Changed version number in Revstart script.
+
 RevoBuilder V1.0.2
 ==================
 - README file changed to point the user to my git wiki.

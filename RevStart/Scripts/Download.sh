@@ -59,9 +59,8 @@ if [ "$UserInput" != "X" ]; then
 
 	if [ -d ${revoSourceName} ] && [ -f ${revoSourceName}"/Makefile" ]; then
 		# find version / revision numbers of downloaded source
-		RevoVersion=`cat "${revoSourceName}"/version`
-		RevoRevision=`cat "${revoSourceName}"/revision`
-		newSourceFolderName=${revoSourceName}"-"${RevoVersion}.${RevoRevision}
+		RevoVersion=`cat "${revoSourceName}"/VERSION`
+		newSourceFolderName=${revoSourceName}"-"${RevoVersion}
 
 		# Rename folder by appending version / revision numbers
 		echo "Renaming source code folder with version number of source..."
@@ -75,20 +74,20 @@ if [ "$UserInput" != "X" ]; then
 			mv ${newSourceFolderName} ${newSourceFolderName}"-"${appendTime}
 			mv ${revoSourceName} ${newSourceFolderName}
 		fi
-		echo "Done. Now using source version RevoBoot-"${RevoVersion}.${RevoRevision}
+		echo "Done. Now using source version RevoBoot-"${RevoVersion}
 		echo ""
 		echo "Please press ENTER to return to the menu"
 		read
 
 		# change permissions of the RevoBoot folder so it's writeable
-		chmod -R 777 ${revoSourceName}"-"${RevoVersion}.${RevoRevision}
+		chmod -R 777 ${revoSourceName}"-"${RevoVersion}
 	else
 		echo "Download failed. Please press ENTER to return to the menu"
 		read
 	fi
 
 	# And we'll save the source folder name so the RevStart script picks it up
-	echo "RevoBoot-"${RevoVersion}.${RevoRevision} >"${WorkDir}"/.RevSrcName
+	echo "RevoBoot-"${RevoVersion} >"${WorkDir}"/.RevSrcName
 
 else
 	echo "Press ENTER to return to the main menu."
