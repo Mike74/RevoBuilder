@@ -204,8 +204,11 @@ else
 
 		echo "("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Compile"
-		echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
-		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
+
+		if [ -d ${revSourceFullWorkingPath}/sym ]; then
+			echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
+			((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
+		fi
 	fi
 
 	# check for the instance where the compiled files are still in the RevoBoot source folder /sym/i386/
