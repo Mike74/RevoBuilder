@@ -4,6 +4,7 @@
 # Written by STLVNUB and blackosx
 # Jan-Mar 2011
 
+versionNumber="1.0.1"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -340,7 +341,6 @@ if [ ! -d "${WorkDir}" ]; then
 	mkdir "${WorkDir}"
 fi
 
-versionNumber="1.0"
 
 
 # --------------------------------------------------------------
@@ -373,7 +373,7 @@ else
 	targetOS="SNOW_LEOPARD"	
 fi
 
-IVERS="1.0"
+IVERS=$versionNumber
 VERS="RevoBuilder $IVERS"
 LVERS="${VERS} by STLVNUB and blackosx"
 
