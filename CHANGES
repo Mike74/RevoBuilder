@@ -1,3 +1,9 @@
+RevoBuilder V1.0.6
+==================
+- Add auto-detection for Git.
+- Tweaked menu to only show the correct options depending on the environment.
+- Removed note about needing Git from download.sh.
+
 RevoBuilder V1.0.5
 ==================
 - Updated config.sh to no longer add TARGET_OS directive to settings.h as required for RevoBoot v1.0.05.

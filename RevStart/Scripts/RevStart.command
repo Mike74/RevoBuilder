@@ -7,7 +7,7 @@
 # Blackosx continued work here with a simpler RevoBuilder.
 # Jan-Mar 2011
 
-versionNumber="1.0.5"
+versionNumber="1.0.6"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -32,7 +32,10 @@ UpdateGlobalPaths()
 		revSourceFolderName="Unknown"	
 		echo "$revSourceFolderName" >"${WorkDir}"/.RevSrcName	
 	fi
-	revSourceFullWorkingPath="${revSourceContainerDir}"/"${revSourceFolderName}"
+	
+	if [ revSourceFolderName ]; then
+		revSourceFullWorkingPath="${revSourceContainerDir}"/"${revSourceFolderName}"
+	fi
 	configACPIfile="${revSourceFullWorkingPath}"/i386/config/ACPI/data.h
 	configEFIfile="${revSourceFullWorkingPath}"/i386/config/EFI/data.h
 	configSMBIOSfile="${revSourceFullWorkingPath}"/i386/config/SMBIOS/data.h
@@ -128,23 +131,26 @@ echo ${attrGrey}"    -----------------------------------------------------------
 if [ ${compilerExist} == Yes ]; then
 	echo ${attrBlue}"    Developer Tools:"${attrNormal}"         "${attrGreen}"Installed"
 else
-	echo ${attrBlue}"    Developer Tools:"${attrNormal}"     "${attrRed}"*** Not installed ***"${attrNormal}
+	echo ${attrBlue}"    Developer Tools:"${attrNormal}"         "${attrRed}"*** Not installed ***"${attrNormal}
+fi
+if [ ${gitExist} == Yes ]; then
+	echo ${attrBlue}"    Git:"${attrNormal}"                     "${attrGreen}"Installed"
+else
+	echo ${attrBlue}"    Git:"${attrNormal}"                     "${attrRed}"*** Not installed ***"${attrNormal}
+fi
+
+echo ""
+echo ${attrBlack}"    SOURCE CODE:             Description"${attrNormal}
+echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+if [ ${gitExist} == Yes ]; then
+	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot from Git"
+	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
 fi
 
 if [ ! -d "${revSourceFullWorkingPath}" ]; then
-	echo ""
-	echo ${attrBlack}"    SOURCE CODE:             Description"${attrNormal}
-	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
-	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot from git"
-	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
 	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrNormal}"      $revSourceFolderName"${attrRed}"   *** NOT FOUND ***"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 else
-	echo ""
-	echo ${attrBlack}"    SOURCE CODE:             Description"${attrNormal}
-	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
-	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot from git"
-	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
 	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrGreen}"      $revSourceFolderName"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 
@@ -172,7 +178,7 @@ else
 	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 
 	if [ ! -f ${configACPIfile} ] && [ ! -f ${configEFIfile} ] && [ ! -f ${configSMBIOSfile} ] && [ ! -f ${configSETTINGSfile} ] ; then
-		echo "("${menuItemNumber}") "${attrBlue}"Build User Config:"${attrNormal}"      "${attrRed}"*** Not yet generated ***"${attrNormal}
+		echo "("${menuItemNumber}") "${attrBlue}"Build User Config:"${attrNormal}"       "${attrRed}"*** Not yet generated ***"${attrNormal}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Config"
 	else
 		if [ -f ${configACPIfile} ]; then
@@ -198,16 +204,18 @@ else
 		echo "("${menuItemNumber}") "${attrBlue}"TrashConfig"${attrNormal}"              Delete all static data and config files"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" TrashConfig"
 
-		echo ""
-		echo ${attrBlack}"    BUILD REVOBOOT:          Description"${attrNormal}
-		echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+		if [ ${compilerExist} == Yes ]; then
+			echo ""
+			echo ${attrBlack}"    BUILD REVOBOOT:          Description"${attrNormal}
+			echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 
-		echo "("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot"
-		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Compile"
+			echo "("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot"
+			((menuItemNumber++)); TheOutputItems=$TheOutputItems" Compile"
 
-		if [ -d ${revSourceFullWorkingPath}/sym ]; then
-			echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
-			((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
+			if [ -d ${revSourceFullWorkingPath}/sym ]; then
+				echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
+				((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
+			fi
 		fi
 	fi
 
@@ -369,9 +377,19 @@ fi
 # --------------------------------------------------------------
 # Load any previously saved settings if they exist.
 
-compilerExist=No
+# Check to see if Apple Developer tools is installed
 if [ -d "/Developer/usr/bin" ]; then						# Best To Check, Some Updates Make /Developer Even If Nothing Else Is In It.
 	compilerExist=Yes
+else
+	compilerExist=No
+fi
+
+# Check to see if git is installed
+gitCheck=$( git version | grep version | awk '{print $2}' )
+if [ $gitCheck == "version" ]; then
+	gitExist=Yes
+else
+	gitExist=No
 fi
 
 if [ -f "${WorkDir}"/.DebugEnabled ]; then

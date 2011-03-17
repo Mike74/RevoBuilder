@@ -33,15 +33,9 @@ echo ""
 
 cd ${revSourceContainerDir}
 
-echo "For downloading the latest RevoBoot source code you"
-echo "will need git installed on your machine."
+echo "Press ENTER to continue and download the latest source"
 echo ""
-echo "If you don't already have a git set up, then visit"
-echo "http://help.github.com/mac-set-up-git to find out how."
-echo "For now, you can press X to return to the main menu."
-echo ""
-echo "If you already have git setup on your machine then"
-echo "press ENTER to continue"
+echo "or type X to return to the main menu."
 echo ""
 read UserInput
 
@@ -88,10 +82,6 @@ if [ "$UserInput" != "X" ]; then
 
 	# And we'll save the source folder name so the RevStart script picks it up
 	echo "RevoBoot-"${RevoVersion} >"${WorkDir}"/.RevSrcName
-
-else
-	echo "Press ENTER to return to the main menu."
-	read
 fi
 
 exit 0
