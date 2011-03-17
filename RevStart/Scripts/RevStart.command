@@ -7,7 +7,7 @@
 # Blackosx continued work here with a simpler RevoBuilder.
 # Jan-Mar 2011
 
-versionNumber="1.0.4"
+versionNumber="1.0.5"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -281,11 +281,11 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			RefreshMenu
 			;;
 		'Compile')
-			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "Compile"
+			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "Compile"
 			RefreshMenu
 			;;
 		'Clean')
-			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "Clean"
+			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "Clean"
 			RefreshMenu
 			;;
 		'Help')

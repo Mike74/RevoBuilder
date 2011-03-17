@@ -17,19 +17,26 @@ Compile()
 {
 	Clean
 	cd "${RevSourceFullWorkingPath}"
-	echo "Compiling Revolution..."
-	make 
+
+	if [ "$targetOS" == LION ]; then
+		echo "Compiling RevoBoot for 10.7..."
+		make lion
+	else
+		echo "Compiling RevoBoot for 10.6..."
+		make
+	fi
+
 	if [ ! -f "${RevSourceFullWorkingPath}"/sym/i386/boot ];then
 		echo ""
-		echo "Compilation Failed."
+		echo "Compilation of RevoBoot for ${targetOS} Failed."
 		echo ""
 		echo "Press any key to return to the main menu"
 		read
 		exit 1
 	else
-		echo "boot Compiled OK"
-		sleep 2
 		echo ""
+		echo "Compilation of RevoBoot for ${targetOS} was successful"
+		sleep 2
 		echo "Opening location of compiled boot file"
 		open "${RevSourceFullWorkingPath}"/sym/i386
 		echo ""
@@ -50,16 +57,18 @@ Compile()
 
 clear
 
-if [ "$#" -eq 3 ]; then
+if [ "$#" -eq 4 ]; then
 	GSD="$1"
 	RevSourceFullWorkingPath="$2"
-	functionWanted="$3"
+	targetOS="$3"
+	functionWanted="$4"
 
 	if [ "$GSD" = "1" ]; then
 		echo "====================================================="
 		echo "Entered Compliation.sh"
 		echo "*****************************************************"
 		echo "DEBUG: passed argument for RevSourceFullWorkingPath = $RevSourceFullWorkingPath"
+		echo "DEBUG: passed argument for targetOS = $targetOS"
 		echo "DEBUG: passed argument for functionWanted = $functionWanted"
 	fi
 else

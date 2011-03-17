@@ -1,3 +1,9 @@
+RevoBuilder V1.0.5
+==================
+- Updated config.sh to no longer add TARGET_OS directive to settings.h as required for RevoBoot v1.0.05.
+- Updated compilation.sh to use make lion if the user want's to build RevoBoot for 10.7
+- Change menu to show built config data in green.
+
 RevoBuilder V1.0.4
 ==================
 - Updated config.h to duplicate /config/data-template.h to data.h to now successfully compile RevoBoot v1.0.04.

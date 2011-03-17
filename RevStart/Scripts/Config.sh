@@ -452,11 +452,11 @@ fi
 
 ConfigWriteLine "PLATFORM.C" "-" "${configSETTINGSfile}"
 
-if [ "$targetOS" == LION ]; then
-	ConfigAddDefine "TARGET_OS" "LION"
-else
-	ConfigAddDefine "TARGET_OS" "SNOW_LEOPARD"
-fi
+#if [ "$targetOS" == LION ]; then
+#	ConfigAddDefine "TARGET_OS" "LION"
+#else
+#	ConfigAddDefine "TARGET_OS" "SNOW_LEOPARD"
+#fi
 
 ConfigAddDefine "STATIC_MAC_PRODUCT_NAME" "\"${trimmedMacModel}\""
 echo "
