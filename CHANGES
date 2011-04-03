@@ -1,3 +1,8 @@
+RevoBuilder V1.0.7
+==================
+- Updated config.sh to reflect the changes to settings.h for RevoBoot 1.0.06
+- Tweaked menu indent for 'Description' beside REVOBUILDER OPTIONS:
+
 RevoBuilder V1.0.6
 ==================
 - Add auto-detection for Git.

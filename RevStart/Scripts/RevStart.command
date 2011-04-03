@@ -5,9 +5,9 @@
 # STLVNUB wrapped blackosx's script with a full featured script application.
 # STLVNUB has continued his work with ProjectRevolution.
 # Blackosx continued work here with a simpler RevoBuilder.
-# Jan-Mar 2011
+# Jan-Apr 2011
 
-versionNumber="1.0.6"
+versionNumber="1.0.7"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -229,7 +229,7 @@ else
 fi
 
 echo ""
-echo ${attrBlack}"    REVOBUILDER OPTIONS:      Description"${attrNormal}
+echo ${attrBlack}"    REVOBUILDER OPTIONS:     Description"${attrNormal}
 echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
 echo "("${menuItemNumber}") "${attrBlue}"Help"${attrNormal}"                     Read instructions on my wiki at git"
 ((menuItemNumber++)); TheOutputItems=$TheOutputItems" Help"

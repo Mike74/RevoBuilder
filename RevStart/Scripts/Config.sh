@@ -105,6 +105,8 @@ case $toCheck in
 		StaticFACS=1 ;;
 	'HPET')
 		StaticHPET=1 ;;
+	'SSDT')
+		StaticSSDT =1 ;;
 	'SSDT_GPU')
 		StaticSSDTGPU=1 ;;
 	'SSDT_PR')
@@ -278,6 +280,7 @@ ConfigAddDefine "STATIC_DSDT_TABLE_INJECTION" "${StaticDSDT}"
 ConfigAddDefine "STATIC_ECDS_TABLE_INJECTION" "${StaticECDS}"
 ConfigAddDefine "STATIC_FACS_TABLE_INJECTION" "0" #"${StaticFACS}"
 ConfigAddDefine "STATIC_HPET_TABLE_INJECTION" "${StaticHPET}"
+ConfigAddDefine "STATIC_SSDT_TABLE_INJECTION" "${StaticSSDT}"
 ConfigAddDefine "STATIC_SSDT_GPU_TABLE_INJECTION" "${StaticSSDTGPU}"
 ConfigAddDefine "STATIC_SSDT_PR_TABLE_INJECTION" "${StaticSSDTPR}"
 ConfigAddDefine "STATIC_SSDT_SATA_TABLE_INJECTION" "${StaticSSDTDATA}"
@@ -329,6 +332,10 @@ if [ "$DebugEnabled" == Yes ]; then
 else
 	ConfigAddDefine "DEBUG_CPU" "0"
 fi
+echo "
+#if DEBUG_CPU
+	#define DEBUG_CPU_TURBO_RATIO			0	// Set to 0 by default. Change this to 1 when you want to check the core ratio.
+#endif " >> "${configSETTINGSfile}"
 
 ConfigWriteLine "CPU/STATIC_DATA.C" "-" "${configSETTINGSfile}"
 ConfigAddDefine "STATIC_CPU_Vendor" "CPU_VENDOR_ID"
@@ -407,12 +414,6 @@ systemSerialString="${systemSerialString}""'"${trimmedSystemSerial:i:1}"'"
 ConfigAddDefine "STATIC_SYSTEM_SERIAL_NUMBER" "{ ${systemSerialString} }"
 ConfigAddDefine "STATIC_SYSTEM_ID" "{ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F }"
 
-if [ "$DebugEnabled" == Yes ]; then
-	ConfigAddDefine "DEBUG_EFI" "1"
-else
-	ConfigAddDefine "DEBUG_EFI" "0"
-fi
-
 if [ "$DebugEnabled" == Yes ] && [ "$targetOS" == LION ]; then
 	ConfigAddDefine "EFI_DEBUG_MODE" "1		// Set to 0 by default (for OS X 10.7 LION only)."
 else
@@ -483,6 +484,7 @@ echo "
 	#define STATIC_RAM_SERIAL_NUMBERS		{ "Serial#1", "Serial#2", 0 }				// Use "n/a" for empty RAM banks.
 #endif " >> "${configSETTINGSfile}"
 
+ConfigAddDefine "INCLUDE_MPS_TABLE" "0"
 if [ "$DebugEnabled" == Yes ]; then
 	ConfigAddDefine "DEBUG_PLATFORM" "1"
 else
