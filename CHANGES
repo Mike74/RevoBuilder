@@ -1,5 +1,10 @@
 RevoBuilder V1.0.8
 ==================
+- Add code for RevStart menu to pad a space before options (1-9) to help alignment.
+- Remove erroneous space in config.sh 
+
+RevoBuilder V1.0.8
+==================
 - Add function in Revstart script to resize the Terminal Window to keep everything visible (needs more work). 
 - Changed source.sh script to present list of source folders to choose from.
 

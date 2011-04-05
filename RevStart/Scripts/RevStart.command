@@ -7,7 +7,7 @@
 # Blackosx continued work here with a simpler RevoBuilder.
 # Jan-Apr 2011
 
-versionNumber="1.0.8"
+versionNumber="1.0.9"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -163,59 +163,59 @@ sizetw 37 80
 
 clear;echo;echo ${attrBlackBold}"Welcome To ${LVERS}"${attrNormal}
 echo ""
-echo ${attrBlack}"    ENVIRONMENT:             Description"${attrNormal}
-echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+echo ${attrBlack}"     ENVIRONMENT:             Description"${attrNormal}
+echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 if [ ${compilerExist} == Yes ]; then
-	echo ${attrBlue}"    Developer Tools:"${attrNormal}"         "${attrGreen}"Installed"
+	echo ${attrBlue}"     Developer Tools:"${attrNormal}"         "${attrGreen}"Installed"
 else
-	echo ${attrBlue}"    Developer Tools:"${attrNormal}"         "${attrRed}"*** Not installed ***"${attrNormal}
+	echo ${attrBlue}"     Developer Tools:"${attrNormal}"         "${attrRed}"*** Not installed ***"${attrNormal}
 fi
 if [ ${gitExist} == Yes ]; then
-	echo ${attrBlue}"    Git:"${attrNormal}"                     "${attrGreen}"Installed"
+	echo ${attrBlue}"     Git:"${attrNormal}"                     "${attrGreen}"Installed"
 else
-	echo ${attrBlue}"    Git:"${attrNormal}"                     "${attrRed}"*** Not installed ***"${attrNormal}
+	echo ${attrBlue}"     Git:"${attrNormal}"                     "${attrRed}"*** Not installed ***"${attrNormal}
 fi
 
 echo ""
-echo ${attrBlack}"    SOURCE CODE:             Description"${attrNormal}
-echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+echo ${attrBlack}"     SOURCE CODE:             Description"${attrNormal}
+echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 if [ ${gitExist} == Yes ]; then
-	echo "("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot from Git"
+	if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Download source:"${attrNormal}"         Grab the latest version of RevoBoot from Git"
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Download"
 fi
 
 if [ ! -d "${revSourceFullWorkingPath}" ]; then
-	echo "("${menuItemNumber}") "${attrBlue}"Working source folder:"${attrNormal}"   $revSourceFolderName"${attrRed}"   *** NOT FOUND ***"${attrNormal}
+	if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Working source folder:"${attrNormal}"   $revSourceFolderName"${attrRed}"   *** NOT FOUND ***"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 else
-	echo "("${menuItemNumber}") "${attrBlue}"Working source folder:"${attrGreen}"   $revSourceFolderName"${attrNormal}
+	if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Working source folder:"${attrGreen}"   $revSourceFolderName"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 
 	echo ""
-	echo ${attrBlack}"    REVOBOOT OPTIONS:        Description"${attrNormal}
-	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+	echo ${attrBlack}"     REVOBOOT OPTIONS:        Description"${attrNormal}
+	echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
 	if [ "$DebugEnabled" == Yes ]; then
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        Yes. RevoBoot will show detailed info at boot"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        Yes. RevoBoot will show detailed info at boot"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
 	else
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        No. RevoBoot will show grey Apple logo screen"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        No. RevoBoot will show grey Apple logo screen"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
 	fi
 	if [ "$targetOS" == LION ]; then
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Lion - Build RevoBoot for booting 10.7"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Lion - Build RevoBoot for booting 10.7"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
 	else
-		echo "("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Snow Leopard - Build RevoBoot for booting 10.6"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Snow Leopard - Build RevoBoot for booting 10.6"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
 	fi
 
 	echo ""
-	echo ${attrBlack}"    YOUR SETTINGS:           Description"${attrNormal}
-	echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+	echo ${attrBlack}"     YOUR SETTINGS:           Description"${attrNormal}
+	echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
 	if [ ! -f ${configACPIfile} ] && [ ! -f ${configEFIfile} ] && [ ! -f ${configSMBIOSfile} ] && [ ! -f ${configSETTINGSfile} ] ; then
-		echo "("${menuItemNumber}") "${attrBlue}"Build User Config:"${attrNormal}"       "${attrRed}"*** Not yet generated ***"${attrNormal}
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Build User Config:"${attrNormal}"       "${attrRed}"*** Not yet generated ***"${attrNormal}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Config"
 	else
 		if [ -f ${configACPIfile} ]; then
@@ -230,27 +230,27 @@ else
 		if [ -f ${configSETTINGSfile} ]; then
 			hasSettings="Settings.h"
 		fi
-		echo "("${menuItemNumber}") "${attrBlue}"Rebuild Config data:"${attrNormal}"     "${attrGreen}"Currently built: "${hasACPI} ${hasEFI} ${hasSMBIOS} ${hasSettings}${attrNormal}
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Rebuild Config data:"${attrNormal}"     "${attrGreen}"Currently built: "${hasACPI} ${hasEFI} ${hasSMBIOS} ${hasSettings}${attrNormal}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Config"
 
 	fi
 
 	if [ -f "${configSETTINGSfile}" ]; then
-		echo "("${menuItemNumber}") "${attrBlue}"Edit settings.h"${attrNormal}"          Edit your config file: Settings.h"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Edit settings.h"${attrNormal}"          Edit your config file: Settings.h"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Edit"
-		echo "("${menuItemNumber}") "${attrBlue}"TrashConfig"${attrNormal}"              Delete all static data and config files"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"TrashConfig"${attrNormal}"              Delete all static data and config files"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" TrashConfig"
 
 		if [ ${compilerExist} == Yes ]; then
 			echo ""
-			echo ${attrBlack}"    BUILD REVOBOOT:          Description"${attrNormal}
-			echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
+			echo ${attrBlack}"     BUILD REVOBOOT:          Description"${attrNormal}
+			echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
-			echo "("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot"
+			if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot"
 			((menuItemNumber++)); TheOutputItems=$TheOutputItems" Compile"
 
 			if [ -d ${revSourceFullWorkingPath}/sym ]; then
-				echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
+				if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
 				((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
 			fi
 		fi
@@ -260,19 +260,19 @@ else
 	# but without the config/settings.h file
 	# if this happens then still show the 'Clean' option to allow removal of them.
 	if [ -d "${revSourceFullWorkingPath}"/sym ] && [ ! -f "${configSETTINGSfile}" ]; then
-		echo "("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
 	fi
 fi
 
 echo ""
-echo ${attrBlack}"    REVOBUILDER OPTIONS:     Description"${attrNormal}
-echo ${attrGrey}"    ------------------------------------------------------------------------"${attrNormal}
-echo "("${menuItemNumber}") "${attrBlue}"Help"${attrNormal}"                     Read instructions on my wiki at git"
+echo ${attrBlack}"     REVOBUILDER OPTIONS:     Description"${attrNormal}
+echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
+if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Help"${attrNormal}"                     Read instructions on my wiki at git"
 ((menuItemNumber++)); TheOutputItems=$TheOutputItems" Help"
-echo "("${menuItemNumber}") "${attrBlue}"Refresh Menu"${attrNormal}"             Redraw the menu"
+if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Refresh Menu"${attrNormal}"             Redraw the menu"
 ((menuItemNumber++)); TheOutputItems=$TheOutputItems" Refresh"
-echo "("${menuItemNumber}") "${attrBlue}"Exit"${attrNormal}"                     End the script"
+if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Exit"${attrNormal}"                     End the script"
 ((menuItemNumber++)); TheOutputItems=$TheOutputItems" exit"
 echo ""
 

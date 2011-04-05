@@ -106,7 +106,7 @@ case $toCheck in
 	'HPET')
 		StaticHPET=1 ;;
 	'SSDT')
-		StaticSSDT =1 ;;
+		StaticSSDT=1 ;;
 	'SSDT_GPU')
 		StaticSSDTGPU=1 ;;
 	'SSDT_PR')
