@@ -1,3 +1,8 @@
+RevoBuilder V1.0.8
+==================
+- Add function in Revstart script to resize the Terminal Window to keep everything visible (needs more work). 
+- Changed source.sh script to present list of source folders to choose from.
+
 RevoBuilder V1.0.7
 ==================
 - Updated config.sh to reflect the changes to settings.h for RevoBoot 1.0.06

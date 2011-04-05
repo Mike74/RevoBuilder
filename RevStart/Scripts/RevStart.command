@@ -7,7 +7,7 @@
 # Blackosx continued work here with a simpler RevoBuilder.
 # Jan-Apr 2011
 
-versionNumber="1.0.7"
+versionNumber="1.0.8"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -70,6 +70,40 @@ Target()
 	fi	
 }
 
+# ==============================================================
+# Functions to resize the Terminal window
+# code from http://codesnippets.joyent.com/posts/show/1645
+
+# positive integer test (including zero)
+function positive_int() { return $(test "$@" -eq "$@" > /dev/null 2>&1 && test "$@" -ge 0 > /dev/null 2>&1); }
+
+# resize the Terminal window
+function sizetw() { 
+   if [[ $# -eq 2 ]] && $(positive_int "$1") && $(positive_int "$2"); then 
+      printf "\e[8;${1};${2};t"
+      return 0
+   fi
+   return 1
+}
+
+# automatically adjust Terminal window size
+function defaultwindow() {
+
+   DEFAULTLINES=26
+   DEFAULTCOLUMNS=107
+
+   if [[ $(/usr/bin/tput lines) -lt $DEFAULTLINES ]] && [[ $(/usr/bin/tput cols) -lt $DEFAULTCOLUMNS ]]; then
+      sizetw $DEFAULTLINES $DEFAULTCOLUMNS
+   elif [[ $(/usr/bin/tput lines) -lt $DEFAULTLINES ]]; then
+      sizetw $DEFAULTLINES $(/usr/bin/tput cols)
+   elif [[ $(/usr/bin/tput cols) -lt $DEFAULTCOLUMNS ]]; then
+      sizetw $(/usr/bin/tput lines) $DEFAULTCOLUMNS
+   fi
+
+   return 0
+}
+
+
 
 # ==============================================================
 # Function to draw the debug of what's going on with this script
@@ -121,6 +155,9 @@ hasEFI=""
 hasSMBIOS=""
 hasSettings=""
 
+# Set window size
+sizetw 37 80
+
 # ----------------------------------------------------------------------------------------
 # Work out which menu items should be displayed in the main menu.
 
@@ -148,10 +185,10 @@ if [ ${gitExist} == Yes ]; then
 fi
 
 if [ ! -d "${revSourceFullWorkingPath}" ]; then
-	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrNormal}"      $revSourceFolderName"${attrRed}"   *** NOT FOUND ***"${attrNormal}
+	echo "("${menuItemNumber}") "${attrBlue}"Working source folder:"${attrNormal}"   $revSourceFolderName"${attrRed}"   *** NOT FOUND ***"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 else
-	echo "("${menuItemNumber}") "${attrBlue}"Source folder name:"${attrGreen}"      $revSourceFolderName"${attrNormal}
+	echo "("${menuItemNumber}") "${attrBlue}"Working source folder:"${attrGreen}"   $revSourceFolderName"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 
 	echo ""

@@ -11,6 +11,9 @@ if [ "$#" -eq 4 ]; then
 	RevSourceFolderName="$3"
 	WorkDir="$4"
 
+	# Record the path of the source folder by moving up a directory.
+	SourceFolderContainer=${RevSourceFullWorkingPath%/$RevSourceFolderName*}
+
 	if [ "$GSD" = "1" ]; then
 		echo "====================================================="
 		echo "Entered Source.sh"
@@ -18,52 +21,81 @@ if [ "$#" -eq 4 ]; then
 		echo "DEBUG: passed argument for RevSourceFullWorkingPath = $RevSourceFullWorkingPath"
 		echo "DEBUG: passed argument for RevSourceFolderName = $RevSourceFolderName"
 		echo "DEBUG: passed argument for WorkDir = $WorkDir"
+		echo "DEBUG: For SourceFolderContainer directory, using: = $SourceFolderContainer"
 	fi
-
 else
 	echo "Source.sh: Error - wrong number of values passed"
 	exit 9
 fi
 
+#--------------
+# FUNCTIONS
+#--------------	
+
+PresentSource()
+{	
+	cd "${SourceFolderContainer}"
+	folderNumber=$(ls | wc -l)
+	if [ $folderNumber != 0 ]; then
+		for (( c=1; c<=$folderNumber; c++ )); do
+			searchItem="$c"p
+			folderArray[$c]="$( ls | sed -n "$searchItem" )"
+			echo "("${c}")" ${folderArray[$c]}
+		done
+		echo ""
+		echo "Type the number of the source folder to use,"
+		echo "or press ENTER to return to the main menu."
+	else
+		echo "NONE"
+		echo ""
+		echo "Press ENTER to return to the main menu and select"
+		echo "option 1 to download the latest source code."
+	fi
+}
+
+#--------------
+# MAIN
+#--------------
+
 echo ""
 echo "====================================================="
-echo "    Change the RevoBoot source code folder name."
+echo "       Change the RevoBoot source code folder."
 echo "*****************************************************"
 
 if [ ! -d "${RevSourceFullWorkingPath}" ]; then
 	echo ""
-	echo "I need the RevoBoot source code to be saved at location:"
-	echo "RevoBuilder/RevoBoot_Source"
-	echo ""
-	echo "Previously, I've used $RevSourceFolderName, but I can't find"
+	echo "I've previously used $RevSourceFolderName, but I can't find"
 	echo "that folder now. "
 	echo ""
-	echo "If you know the source code is there then please type the"
-	echo "full name of the source code folder, followed by return."
-	echo ""
-	echo "Otherwise you can press ENTER to return to the main menu and"
-	echo "use option 1 to download the latest source code."
+	echo "The source folders you have available are:"
+	PresentSource
 else # User wants to change the name
 	echo ""
-	echo "You currently have $RevSourceFolderName which I can use."
+	echo "I'm currently using $RevSourceFolderName"
 	echo ""
-	echo "If you want me to use a different source code folder and it's"
-	echo "in the RevoBuilder/RevoBoot_Source folder then either:"
+	echo "The source folders you have available are:"
+	PresentSource
 	echo ""
-	echo "* Copy and paste the new name of the RevoBoot source folder."
-	echo "* Type the new name of the RevoBoot source folder."
-	echo "* Press ENTER to return to the main menu."
 fi
 
-echo ""
-read UserNum1
+menuItemsArray=(${folderArray})
+read userInput
 
-if [ "$UserNum1" != "" ]; then
-	echo ""
-	echo "Using $UserNum1 as the source folder name"
-	RevSourceFolderName="$UserNum1"
+# check user has typed a number
+if [ $userInput -eq $userInput 2> /dev/null ]; then
+	a=${folderArray[userInput]}
+	if [ "$a" != "" ]; then
+		echo ""
+		echo "Using $a as the source folder name"
+		RevSourceFolderName="$a"
+	fi
 else
+	clear; echo
+	echo "Error: $userInput is not an available option."
 	echo "Leaving source folder name as $RevSourceFolderName"
+	echo ""
+	echo "Please press ENTER to return to the menu" 
+	read
 fi
 
 echo "$RevSourceFolderName" > "${WorkDir}"/.RevSrcName
