@@ -7,7 +7,7 @@
 # Blackosx continued work here with a simpler RevoBuilder.
 # Jan-Apr 2011
 
-versionNumber="1.0.9"
+versionNumber="1.0.10"
 
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
@@ -161,7 +161,7 @@ sizetw 37 80
 # ----------------------------------------------------------------------------------------
 # Work out which menu items should be displayed in the main menu.
 
-clear;echo;echo ${attrBlackBold}"Welcome To ${LVERS}"${attrNormal}
+clear;echo;echo ${attrBlackBold}"     Welcome To ${VERS}"${attrNormal}
 echo ""
 echo ${attrBlack}"     ENVIRONMENT:             Description"${attrNormal}
 echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
@@ -441,9 +441,7 @@ else
 	targetOS="SNOW_LEOPARD"	
 fi
 
-IVERS=$versionNumber
-VERS="RevoBuilder $IVERS"
-LVERS="${VERS} by STLVNUB and blackosx"
+VERS="RevoBuilder $versionNumber"
 
 
 # --------------------------------------------------------------

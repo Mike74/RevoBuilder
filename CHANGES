@@ -1,4 +1,8 @@
-RevoBuilder V1.0.8
+RevoBuilder V1.0.10
+==================
+- Tweak Welcome heading at the top of the menu.
+
+RevoBuilder V1.0.9
 ==================
 - Add code for RevStart menu to pad a space before options (1-9) to help alignment.
 - Remove erroneous space in config.sh 
