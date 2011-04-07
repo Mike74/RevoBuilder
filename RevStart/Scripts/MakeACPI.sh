@@ -3,8 +3,6 @@
 # Receives passed values for É..
 # for example: 
 
-clear
-
 if [ "$#" -eq 2 ]; then
 	GSD="$1"
 	WorkDir="$2"
@@ -20,6 +18,7 @@ else
 	exit 9
 fi
 
+clear
 
 echo ""
 echo "====================================================="
@@ -28,12 +27,14 @@ echo "*****************************************************"
 
 if [ ! -d "${WorkDir}"/ACPI ]; then
 	echo ""
-	echo "Your system's ACPI tables will be extracted and then"
-	echo "saved in Revstart's BUILD/ACPI folder."
+	echo "The ACPI tables from your currently booted system will be"
+	echo "saved in RevoBuilder/Revstart/BUILD/ACPI folder. Note, these"
+	echo "will include modifications (if any) done by the bootloader"
+	echo "which you may or may not want."
 	echo ""
-	echo "Those tables will then be converted in to a data format"
-	echo "which RevoBoot can use for static data. These will then"
-	echo "be saved in Revstart's BUILD/STATIC folder."
+	echo "Those tables will then be converted in to a data structure"
+	echo "which RevoBoot can use for static data and saved in to the"
+	echo "RevoBuilder/Revstart/BUILD/STATIC folder."
 	echo ""
 	echo "Press any key to commence"
 	read

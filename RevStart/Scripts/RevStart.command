@@ -7,20 +7,27 @@
 # Blackosx continued work here with a simpler RevoBuilder.
 # Jan-Apr 2011
 
-versionNumber="1.0.10"
-
 # This switch enables all functions to echo received variables.
 # It was called GLOBAL_SCRIPT_DEBUG but I've shortened it to GSD.
 # Use 1 to enable and 0 to disable.
 GSD=0
 
 
-# Initial code starts below, under the MAIN section.
+# Initial code starts as the bottom, under the MAIN section.
 
 
 # --------------------------------------------------------------
 # FUNCTIONS
 # --------------------------------------------------------------
+
+# ==============================================================
+# Function to read the version number from the VERSION file
+getVersion()
+{
+	if [ -f "${revStartDir}"/VERSION ]; then
+		versionNumber=`cat "${revStartDir}"/VERSION`
+	fi	
+}
 
 # ==============================================================
 # Function to update the working paths of the folders.
@@ -441,6 +448,7 @@ else
 	targetOS="SNOW_LEOPARD"	
 fi
 
+getVersion
 VERS="RevoBuilder $versionNumber"
 
 

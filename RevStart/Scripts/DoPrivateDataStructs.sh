@@ -3,8 +3,6 @@
 # Receives passed values for É..
 # for example: 
 
-clear
-
 if [ "$#" -eq 3 ]; then
 	GSD="$1"
 	revStartDir="$2"
@@ -35,8 +33,11 @@ fi
 # Check for existing structs
 # ------------------------------------------------------------
 if [ -d "${structDir}" ]; then
-	rmdir "${structDir}"
-	mkdir  "${structDir}"
+	cd "${structDir}"
+	fileCount=$(ls | wc -l)
+	if [ $fileCount != 0 ]; then
+		rm -r *.txt
+	fi
 else 
 	mkdir  "${structDir}"
 fi	
@@ -73,7 +74,8 @@ echo "Converting EFI data to struct"
 "${toolsDir}"/efidp2struct > "${structDir}"/EFI.txt
 
 echo ""
-echo "Converting ACPI tables in to stucts is complete."
+echo "Data structures successfully created."
+echo "-------------------------------------"
 		
 exit 0
 

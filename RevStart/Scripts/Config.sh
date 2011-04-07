@@ -182,7 +182,7 @@ echo "----------------------------------"
 
 #sudo chmod -R 775 "${configACPIfile}" "${configEFIfile}" "${configSMBIOSfile}"
 if [ -f "${configACPIfile}" ]; then
-	echo "Removing old ${configACPIfile} file"
+	echo "Removing old config/APCI/Data.h file"
 	sudo rm "${configACPIfile}"		
 fi
 
@@ -207,7 +207,7 @@ ConfigWriteIfEnd "SSDT_USB" "${configACPIfile}"
 ConfigWriteLine "END" "=" "${configACPIfile}"
 
 if [ -f "${configEFIfile}" ]; then
-	echo "Removing old ${configEFIfile} file"
+	echo "Removing old config/EFI/Data.h file"
 	sudo rm "${configEFIfile}"		
 fi
 
@@ -220,7 +220,7 @@ ConfigGetData "EFI" "${configEFIfile}"
 ConfigWriteLine "END" "=" "${configEFIfile}"
 
 if [ -f "${configSMBIOSfile}" ]; then
-	echo "Removing old ${configSMBIOSfile} file"
+	echo "Removing old config/SMBIOS/Data.h file"
 	sudo rm "${configSMBIOSfile}"		
 fi
 
@@ -245,6 +245,15 @@ echo "----------------------------------"
 	
 # Check for existing settings.h file and backup if found.
 if [ -f "${configSETTINGSfile}" ]; then
+	echo ""
+	echo "****** NOTE *******"
+	echo "An existing config/settings.h file was found."
+	echo "You may already have some custom settings in there,"
+	echo "so I will back that up as config/settings.h.bak then"
+	echo "continue to make a new one."
+	echo ""
+	echo "Press ENTER to acknowledge"
+	read
 	mv "${configSETTINGSfile}" "${configSETTINGSfile}".bak
 fi
 
@@ -503,8 +512,6 @@ echo "----------------------------------"
 # MAIN
 #--------------
 
-clear
-
 # Receives passed values for É..
 # for example: 
 
@@ -545,8 +552,6 @@ AutoGFX=Yes #AutoGFX=No
 DoRevoConfigDataH
 DoRevoConfigSettingsH
 
-
-# Duplicate the /i386/config/data-template.h to data.h
 # Move up in to the RevoBuilder dir and record that location
 projConfigDir=${configACPIfile%/ACPI/data.h*}
 cp ${projConfigDir}/data-template.h ${projConfigDir}/data.h
