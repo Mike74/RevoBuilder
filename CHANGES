@@ -1,3 +1,7 @@
+RevoBuilder V1.0.12
+==================
+- Changed the config.sh script to reflect changes to RevoBoot 1.0.09
+
 RevoBuilder V1.0.11
 ==================
 - Changed the way the version number is stored.
