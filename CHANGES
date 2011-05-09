@@ -1,3 +1,10 @@
+RevoBuilder V1.0.13
+==================
+- Updated /RevStart/Resources/Tools/ to RevoBoot's latest smbios2struct3
+- Updated DoPrivateDataStructs.h with the revised name for smbios2struct3
+- Changed occurrences of Revolution to RevoBoot in Config.sh
+- Revised Config.h to produce settings.h to match latest style in GitHub
+
 RevoBuilder V1.0.12
 ==================
 - Changed the config.sh script to reflect changes to RevoBoot 1.0.09

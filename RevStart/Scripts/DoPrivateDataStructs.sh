@@ -64,7 +64,7 @@ fi
 # Convert current SMBIOS data in to struct
 # ------------------------------------------------------------
 echo "Converting SMBIOS to struct"
-"${toolsDir}"/smbios2struct2_v103 > "${structDir}"/SMBIOS.txt
+"${toolsDir}"/smbios2struct3 > "${structDir}"/SMBIOS.txt
 
 
 # ============================================================

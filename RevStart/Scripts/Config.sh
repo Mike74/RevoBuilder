@@ -15,7 +15,7 @@ outFile="$1"
 echo "/*
  * Copyright (c) 2009 Master Chief. All rights reserved.
  *
- * Note: This is an essential part of the build process for Revolution v1.0.09 and greater.
+ * Note: This is an essential part of the build process for RevoBoot v1.0.09 and greater.
  *
  *
  * Latest cleanups and additional directives added by DHP in 2011
@@ -263,7 +263,7 @@ ConfigWriteLine "ACPI.C" "-" "${configSETTINGSfile}"
 # Check first 4 bytes of RSDT for 58534454 (XSDT).
 # If found then set ACPI_V1 support to 0, else set to 1
 #
-# Note - This fails when run from Revolution as it modifies the
+# Note - This fails when run from RevoBoot as it modifies the
 # RSDT table and re-titles it "XSDT" therefore making this check
 # fail. So need to find another way to get this‰..
 #
@@ -341,6 +341,15 @@ if [ "$DebugEnabled" == Yes ]; then
 else
 	ConfigAddDefine "DEBUG_CPU" "0"
 fi
+echo "
+#if DEBUG_CPU
+	#define DEBUG_CPU_TURBO_RATIO			0	// Set to 0 by default. Change this to 1 when you want to check the core ratio.
+
+	#define DEBUG_CST_SUPPORT				0	// Set to 0 by default. Change this to 1 to check the in BIOS enabled C-States.
+
+	#define DEBUG_CPU_TDP					0	// Set to 0 by default. Change this to 1 when you want to check the TDP.
+#endif " >> "${configSETTINGSfile}"
+
 
 
 ConfigWriteLine "CPU/STATIC_DATA.C" "-" "${configSETTINGSfile}"
