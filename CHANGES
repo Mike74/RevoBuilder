@@ -1,3 +1,9 @@
+RevoBuilder V1.0.14
+==================
+- Revised Config.h to produce settings.h to match latest style used in RevoBoot 1.0.21.
+- Changed colour of menu options 3 & 4 to green for initial word of the toggled options.
+- Revised version number.
+
 RevoBuilder V1.0.13
 ==================
 - Updated /RevStart/Resources/Tools/ to RevoBoot's latest smbios2struct3

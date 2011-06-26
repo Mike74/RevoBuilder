@@ -15,10 +15,13 @@ outFile="$1"
 echo "/*
  * Copyright (c) 2009 Master Chief. All rights reserved.
  *
- * Note: This is an essential part of the build process for RevoBoot v1.0.09 and greater.
+ * Note: This is an essential part of the build process for RevoBoot v1.0.20 and greater.
  *
  *
- * Latest cleanups and additional directives added by DHP in 2011
+ * Latest cleanups and additional directives added by DHP in 2011.
+ * Static CPU data simplified by DHP in Juni 2011 (thanks to MC and flAked for the idea).
+ * Automatic creation / injection of SSDT_PR.aml added by DHP in June 2011.
+ * New compiler directive (BOOT_TURBO_BOOST_RATIO) added by Jeroen (June 2011).
  */ " > "${outFile}"	
 }
 
@@ -275,7 +278,6 @@ else
   ConfigAddDefine "ACPI_10_SUPPORT" "1"
 fi
 
-
 ConfigAddDefine "PATCH_ACPI_TABLE_DATA" "1"
 
 if [ "${AcpiBase}" = "0x00000000" ]; then
@@ -283,6 +285,13 @@ if [ "${AcpiBase}" = "0x00000000" ]; then
 else
 	ConfigAddDefine "USE_STATIC_ACPI_BASE_ADDRESS" "1"
 fi
+
+# Add USE_STATIC_ACPI_BASE_ADDRESS directive
+echo "
+#if USE_STATIC_ACPI_BASE_ADDRESS
+	#define	STATIC_ACPI_BASE_ADDRESS		"$AcpiBase"
+#endif" >> "${configSETTINGSfile}"
+
 ConfigAddDefine "STATIC_APIC_TABLE_INJECTION" "${StaticAPIC}"
 ConfigAddDefine "STATIC_APIC2_TABLE_INJECTION" "${StaticAPIC2}"
 ConfigAddDefine "STATIC_DSDT_TABLE_INJECTION" "${StaticDSDT}"
@@ -302,9 +311,23 @@ else
 	ConfigAddDefine "LOAD_DSDT_TABLE_FROM_EXTRA_ACPI" "1"
 fi
 
-ConfigAddDefine "LOAD_SSDT_TABLE_FROM_EXTRA_ACPI" "?"
+ConfigAddDefine "LOAD_SSDT_TABLE_FROM_EXTRA_ACPI" "0"
 ConfigAddDefine "LOAD_EXTRA_ACPI_TABLES" "(LOAD_DSDT_TABLE_FROM_EXTRA_ACPI || LOAD_SSDT_TABLE_FROM_EXTRA_ACPI)"
-ConfigAddDefine "DROP_SSDT_TABLES" "0"
+ConfigAddDefine "AUTOMATIC_SSDT_PR_CREATION" "0"
+echo "
+#if AUTOMATIC_SSDT_PR_CREATION
+	#define MAX_NUMBER_OF_P_STATES			19	// Default of 15 normal plus 4 Turbo P-States (for desktop setups).
+												// MSRDumper(@16): 16, 25, 28, 31, 34, 35, 36, 37 and 38 multi (YMMV).
+												// Low power (mobility) processors might need an extended range!
+
+	#define DROP_FACTORY_SSDT_TABLES		1	// Set to 1 by default (this setting is required).
+												//
+												// Note: Do not change this setting (must drop SSDT tables).
+#else
+	#define DROP_FACTORY_SSDT_TABLES		0	// Set to 0 by default. Use 1 with caution (might disable SpeedStep).
+#endif" >> "${configSETTINGSfile}"
+ConfigAddDefine "OVERRIDE_ACPI_METHODS" "0"
+
 ConfigAddDefine "REPLACE_EXISTING_SSDT_TABLES" "0"
 ConfigAddDefine "APPLE_STYLE_ACPI" "0"
 if [ "$DebugEnabled" == Yes ]; then
@@ -312,12 +335,6 @@ if [ "$DebugEnabled" == Yes ]; then
 else
 	ConfigAddDefine "DEBUG_ACPI" "0"
 fi
-
-# Add USE_STATIC_ACPI_BASE_ADDRESS directive
-echo "
-#if USE_STATIC_ACPI_BASE_ADDRESS
-	#define	STATIC_ACPI_BASE_ADDRESS		"$AcpiBase"
-#endif" >> "${configSETTINGSfile}"
 
 ConfigWriteLine "BOOT.C" "-" "${configSETTINGSfile}"
 ConfigAddDefine "PRE_LINKED_KERNEL_SUPPORT" "0"
@@ -335,7 +352,10 @@ fi
 
 ConfigWriteLine "CPU.C" "-" "${configSETTINGSfile}"
 ConfigAddDefine "USE_STATIC_CPU_DATA" "0"
-ConfigAddDefine "CPU_VENDOR_ID" "CPU_VENDOR_INTEL // CPU_VENDOR_AMD"
+ConfigAddDefine "CPU_VENDOR_ID" "CPU_VENDOR_INTEL // CPU_VENDOR_AMD is not supported."
+ConfigAddDefine "OC_BUSRATIO_CORRECTION" "0"
+ConfigAddDefine "NUMBER_OF_TURBO_STATES" "4"
+ConfigAddDefine "BOOT_TURBO_RATIO" "0"
 if [ "$DebugEnabled" == Yes ]; then
 	ConfigAddDefine "DEBUG_CPU" "1"
 else
@@ -343,34 +363,21 @@ else
 fi
 echo "
 #if DEBUG_CPU
-	#define DEBUG_CPU_TURBO_RATIO			0	// Set to 0 by default. Change this to 1 when you want to check the core ratio.
+	#define DEBUG_CPU_TURBO_RATIOS			0	// Set to 0 by default. Change this to 1 when you want to check the core ratio.
 
 	#define DEBUG_CST_SUPPORT				0	// Set to 0 by default. Change this to 1 to check the in BIOS enabled C-States.
 
-	#define DEBUG_CPU_TDP					0	// Set to 0 by default. Change this to 1 when you want to check the TDP.
-#endif " >> "${configSETTINGSfile}"
+	#define DEBUG_TSS_SUPPORT				0	// Set to 0 by default. Change this to 1 to check the T-State Clock Modulation.
 
+	#define DEBUG_CPU_TDP					0	// Set to 0 by default. Change this to 1 when you want to check the TDP.
+#endif" >> "${configSETTINGSfile}"
 
 
 ConfigWriteLine "CPU/STATIC_DATA.C" "-" "${configSETTINGSfile}"
-ConfigAddDefine "STATIC_CPU_Vendor" "CPU_VENDOR_ID"
-ConfigAddDefine "STATIC_CPU_Signature" "0"
-ConfigAddDefine "STATIC_CPU_Stepping" "0"
-ConfigAddDefine "STATIC_CPU_Model" "0"
-ConfigAddDefine "STATIC_CPU_Family" "0"
-ConfigAddDefine "STATIC_CPU_ExtModel" "0"
-ConfigAddDefine "STATIC_CPU_ExtFamily" "0"
-ConfigAddDefine "STATIC_CPU_Type" "0"
+ConfigAddDefine "STATIC_CPU_Type" "0x000"
 ConfigAddDefine "STATIC_CPU_NumCores" "0"
 ConfigAddDefine "STATIC_CPU_NumThreads" "0"
-ConfigAddDefine "STATIC_CPU_Features" "0"
-ConfigAddDefine "STATIC_CPU_CurrCoef" "0"
-ConfigAddDefine "STATIC_CPU_MaxCoef" "0"
-ConfigAddDefine "STATIC_CPU_CurrDiv" "0"
-ConfigAddDefine "STATIC_CPU_MaxDiv" "0"
-ConfigAddDefine "STATIC_CPU_TSCFrequency" "0"
-ConfigAddDefine "STATIC_CPU_FSBFrequency" "0"
-ConfigAddDefine "STATIC_CPU_CPUFrequency" "0"
+ConfigAddDefine "STATIC_CPU_FSBFrequency" "000000000ULL"
 ConfigAddDefine "STATIC_CPU_QPISpeed" "0"
 
 ConfigWriteLine "DISK.C" "-" "${configSETTINGSfile}"
@@ -462,7 +469,7 @@ ConfigAddDefine "OVERRIDE_DYNAMIC_MEMORY_DETECTION" "0"
 ConfigAddDefine "OVERRIDE_DYNAMIC_PRODUCT_DETECTION" "0"
 echo "
 #if OVERRIDE_DYNAMIC_PRODUCT_DETECTION
-	#define STATIC_SMBIOS_MODEL_ID			MACPRO
+	#define STATIC_SMBIOS_MODEL_ID			IMAC
 #endif " >> "${configSETTINGSfile}"
 
 if [ "$DebugEnabled" == Yes ]; then
@@ -472,13 +479,6 @@ else
 fi
 
 ConfigWriteLine "PLATFORM.C" "-" "${configSETTINGSfile}"
-
-#if [ "$targetOS" == LION ]; then
-#	ConfigAddDefine "TARGET_OS" "LION"
-#else
-#	ConfigAddDefine "TARGET_OS" "SNOW_LEOPARD"
-#fi
-
 ConfigAddDefine "STATIC_MAC_PRODUCT_NAME" "\"${trimmedMacModel}\""
 echo "
 #if USE_STATIC_SMBIOS_DATA

@@ -203,17 +203,17 @@ else
 	echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
 	if [ "$DebugEnabled" == Yes ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        Yes. RevoBoot will show detailed info at boot"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        Yes."${attrNormal}" RevoBoot will show detailed info at boot"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
 	else
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrNormal}"        No. RevoBoot will show grey Apple logo screen"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        No."${attrNormal}" RevoBoot will show grey Apple logo screen"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
 	fi
 	if [ "$targetOS" == LION ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Lion - Build RevoBoot for booting 10.7"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrGreen}"        Lion"${attrNormal}" - Build RevoBoot for booting 10.7"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
 	else
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrNormal}"        Snow Leopard - Build RevoBoot for booting 10.6"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrGreen}"        Snow Leopard"${attrNormal}" - Build RevoBoot for booting 10.6"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
 	fi
 
