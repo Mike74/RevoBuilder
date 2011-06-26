@@ -69,12 +69,23 @@ if [ "$UserInput" != "X" ]; then
 			mv ${revoSourceName} ${newSourceFolderName}
 		fi
 		echo "Done. Now using source version RevoBoot-"${RevoVersion}
-		echo ""
-		echo "Please press ENTER to return to the menu"
-		read
+
+		# remove supplied /i386/config/ACPI/data.h and /i386/config/settings.h files.
+		echo "Removing supplied /i386/config/ACPI/data.h and /i386/config/settings.h files."
+		cd ${revoSourceName}"-"${RevoVersion}/i386/config
+		if [ -d ${ACPI/data.h} ]; then
+			rm ACPI/data.h
+		fi
+		if [ -f settings.h ]; then
+			rm settings.h
+		fi
 
 		# change permissions of the RevoBoot folder so it's writeable
 		chmod -R 777 ${revoSourceName}"-"${RevoVersion}
+
+		echo ""
+		echo "Please press ENTER to return to the menu"
+		read
 	else
 		echo "Download failed. Please press ENTER to return to the menu"
 		read

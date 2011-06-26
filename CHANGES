@@ -1,3 +1,7 @@
+RevoBuilder V1.0.15
+==================
+- Change download.sh to remove the supplied /i386/config/ACPI/data.h and /i386/config/settings.h files after downloading latest RevoBoot source.
+
 RevoBuilder V1.0.14
 ==================
 - Revised Config.h to produce settings.h to match latest style used in RevoBoot 1.0.21.
