@@ -1,3 +1,7 @@
+RevoBuilder V1.0.16
+==================
+- Added menu option (after Clean) to build a bootable USB flash drive. It has been tested on default settings using SnowLeopard and Lion. It's not all singing all dancing and doesn't support things like a pre-linked kernel yet but here it works. It's only a first draft so there's plenty of room for code improvements etc.
+
 RevoBuilder V1.0.15
 ==================
 - Change download.sh to remove the supplied /i386/config/ACPI/data.h and /i386/config/settings.h files after downloading latest RevoBoot source.

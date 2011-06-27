@@ -203,7 +203,7 @@ else
 	echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
 	if [ "$DebugEnabled" == Yes ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        Yes."${attrNormal}" RevoBoot will show detailed info at boot"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        Yes."${attrRed}" Very slow!" ${attrNormal}"Useful for when boot fails."
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
 	else
 		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        No."${attrNormal}" RevoBoot will show grey Apple logo screen"
@@ -257,7 +257,7 @@ else
 			((menuItemNumber++)); TheOutputItems=$TheOutputItems" Compile"
 
 			if [ -d ${revSourceFullWorkingPath}/sym ]; then
-				if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
+				if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compilation files"
 				((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
 			fi
 		fi
@@ -267,8 +267,15 @@ else
 	# but without the config/settings.h file
 	# if this happens then still show the 'Clean' option to allow removal of them.
 	if [ -d "${revSourceFullWorkingPath}"/sym ] && [ ! -f "${configSETTINGSfile}" ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' compliation files"
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' complation files"
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
+	fi
+
+	# check for existence of compiled RevoBoot 'boot' file in /sym/i386/ folder.
+	# if there then offer option of building a bootable USB flash drive.
+	if [ -f "${revSourceFullWorkingPath}"/sym/i386/boot ]; then
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Build bootable USB"${attrNormal}"       Create a bootable USB flash drive"
+		((menuItemNumber++)); TheOutputItems=$TheOutputItems" BuildUSB"
 	fi
 fi
 
@@ -291,7 +298,7 @@ menuItemsArray=(${TheOutputItems})
 echo "Enter your choice as a numeric value:"
 read userInput
 
-# check user has typed a number and the inout wasn't blank.
+# check user has typed a number and the input wasn't blank.
 if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 	a=${menuItemsArray[userInput-1]}
 	case "$a" in
@@ -338,6 +345,10 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			;;
 		'Clean')
 			"$scriptDir"/Compilation.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "Clean"
+			RefreshMenu
+			;;
+		'BuildUSB')
+			"$scriptDir"/BuildUSB.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "${revStartDir}"
 			RefreshMenu
 			;;
 		'Help')
