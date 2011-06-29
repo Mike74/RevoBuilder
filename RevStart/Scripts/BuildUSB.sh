@@ -1,8 +1,4 @@
-!/bin/bash
-
-echo "====================================================="
-echo "Build USB"
-echo "*****************************************************"
+#!/bin/bash
 
 # Receives passed values for É..
 # for example: 
@@ -56,13 +52,13 @@ echo "====================================================="
 echo "        Build a bootable USB flash drive."
 echo "*****************************************************"
 echo ""
-echo "You've compiled RevoBoot for ${targetOS} now lets test it out."
+echo "You've compiled RevoBoot for ${targetOS} so lets test it."
 echo ""
 echo "First, I require the following to be true:"
 echo "1) You have initialised a flash drive using - "
 echo "   Mac OS Extended format, with a GUID partition table."
 echo "2) The volume name is REVOBOOTUSB." 
-echo "3) The flash drive is inserted and mounted." 
+echo "3) The flash drive is inserted and mounted."
 echo ""
 
 flashDrive="/Volumes/REVOBOOTUSB"
@@ -90,52 +86,58 @@ else
 	fi
 	echo ""
 
-	echo "====================================================="
-	echo "       Select the Volume for RevoBoot to boot"
-	echo "*****************************************************"
+	echo "--------------------------------------------------"
+	echo "Here's a list of Apple_HFS volumes on your machine"
 	echo ""
+	# Find number of HFS volumes to present
+	folderNumber=$( df -T hfs | grep disk | wc -l)
+
 	# Present list of OS X volumes to choose from
-	echo "This following list contains all the HFS volumes on your machine."
-	echo "Please only choose one with a ${targetOS} system."
-	#cd /Volumes
-	folderNumber=$( df -T hfs | awk '{print$1,$6}' | grep disk | wc -l)
 	for (( c=1; c<=$folderNumber; c++ )); do
 		searchItem="$c"p
 		deviceNumber[$c]="$( df -T hfs | awk '{print$1}' | grep disk | sed -n "$searchItem" )"
-		volumeName[$c]="$( df -T hfs | awk '{print$1,$6}' | grep disk | sed -n "$searchItem" | awk '{print$2}' )"
+		volumeName[$c]="$( df -T hfs | grep disk | awk -F'/' '{print$5}' | sed -n "$searchItem" )"
+
+		# df returns the current system volume as a slash - let's replace it with the volume name
+		if [ "${volumeName[$c]}" = "" ]; then
+			volumeName[$c]=$( ls -1F /Volumes | sed -n 's:@$::p' )
+		fi
 		
 		# remember devicenumber for REVOBOOTUSB
-		if [ ${volumeName[$c]} == "/Volumes/REVOBOOTUSB" ]; then
-			flashDriveDeviceNumber=${deviceNumber[$c]};
+		if [ "${volumeName[$c]}" = "REVOBOOTUSB" ]; then
+			flashDriveDeviceNumber=${deviceNumber[$c]}
+		else
+			echo "("${c}")" ${attrBlue}${volumeName[$c]}${attrNormal}
 		fi
 
-		echo "("${c}")" ${volumeName[$c]} 
 	done
 	echo ""
+	echo "Type a number of the ${targetOS} system you want RevoBoot to boot"
 	menuItemsArray=(${volumeName})
 	read userInput
 
 	# check user has typed a number
 	if [ $userInput -eq $userInput 2> /dev/null ]; then
 		systemToBoot=${volumeName[userInput]}
-		if [ "$systemToBoot" != "" ]; then
+		if [ "${systemToBoot}" != "" ]; then
 			echo ""
-			echo "You've selected $systemToBoot as the system to boot."
+			echo "You've selected "${attrGreen}"${systemToBoot}"${attrNormal}" as the system to boot."
 			echo ""
-			echo "Shall I prepare the REVOBOOTUSB flash drive?"
+			echo "---------------------------------------------------"
+			echo "Next step is to prepare the REVOBOOTUSB flash drive"
 
 			#ÊGet user to double check drive before continuing
 			rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber | tr -d "/dev/disk\"s1")
+			echo ""
 			echo ${attrRed}"I will be writing to $rawDisk. "
 			echo "Please confirm this is correct before continuing."${attrNormal}
 			echo ""
 			echo "Press y to proceed, or any other key to return to main menu"
 			read userproceed
 			if [ "$userproceed" = "y" ]; then
-
+				echo "-----------------------------------------------------"
 				diskutil enableOwnership $flashDrive
 
-				echo "-----------------------------------------------------"
 				# Write Chameleon stage 0 and stage 1 code to flashdrive - disk number is stored in flashDriveDeviceNumber.
 				cd ${chameleonLoadersDir}
 
@@ -150,15 +152,15 @@ else
 				echo "Copy RevoBoot stage 2 boot file"
 				cp "${revSourceFullWorkingPath}"/sym/i386/boot $flashDrive
 
-				echo "Creating folders"
+				echo "Creating folder structure"
 				mkdir -p $flashDrive/Extra/ACPI/ $flashDrive/Extra/Extensions/ $flashDrive/Library/Preferences/SystemConfiguration/ $flashDrive/System/Library/Caches/com.apple.kext.caches/Startup/ $flashDrive/System/Library/Extensions/
 
-				echo "Copying $systemToBoot/System/Library/Extensions/* to $flashDrive/System/Library/Extensions"
+				echo "Copying /Volumes/"${systemToBoot}"/System/Library/Extensions/* to $flashDrive/System/Library/Extensions"
 				echo "Note: Process depends on speed of your USB. It could take a some minutes."
-				cp -R $systemToBoot/System/Library/Extensions/* $flashDrive/System/Library/Extensions
+				cp -R /Volumes/"${systemToBoot}"/System/Library/Extensions/* $flashDrive/System/Library/Extensions
 
-				echo "Copying mach_kernel to root of $flashDrive"
-				cp $systemToBoot/mach_kernel $flashDrive
+				echo "Copying /Volumes/"${systemToBoot}"/mach_kernel to root of $flashDrive"
+				cp /Volumes/"${systemToBoot}"/mach_kernel $flashDrive
 				
 				echo ""
 				echo "-----------------------------------------------------"
@@ -181,10 +183,10 @@ else
 					kernelmode=""
 				fi
 				if [ $targetOS = "SNOW_LEOPARD" ]; then
-	echo "SL"
+					#echo "DEBUG: SL"
 					OSVersion="10.6"
 				else
-	echo "Lion"
+					#echo "DEBUG: Lion"
 					OSVersion="10.7"
 				fi
 				# Grab UUID of selected volume for adding to com.apple.Boot.plist

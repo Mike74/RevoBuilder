@@ -1,3 +1,7 @@
+RevoBuilder V1.0.17
+==================
+- Some changes to the build a bootable flash drive option. Lots more to do on this yet - I consider this part as a work-in-progress.
+
 RevoBuilder V1.0.16
 ==================
 - Added menu option (after Clean) to build a bootable USB flash drive. It has been tested on default settings using SnowLeopard and Lion. It's not all singing all dancing and doesn't support things like a pre-linked kernel yet but here it works. It's only a first draft so there's plenty of room for code improvements etc.
