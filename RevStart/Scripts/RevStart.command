@@ -198,24 +198,17 @@ else
 	if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Working source folder:"${attrGreen}"   $revSourceFolderName"${attrNormal}
 	((menuItemNumber++)); TheOutputItems=$TheOutputItems" Source"
 
-	echo ""
-	echo ${attrBlack}"     REVOBOOT OPTIONS:        Description"${attrNormal}
-	echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
+	#echo ""
+	#echo ${attrBlack}"     REVOBOOT OPTIONS:        Description"${attrNormal}
+	#echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
-	if [ "$DebugEnabled" == Yes ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        Yes."${attrRed}" Very slow!" ${attrNormal}"Useful for when boot fails."
-		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
-	else
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        No."${attrNormal}" RevoBoot will show grey Apple logo screen"
-		((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
-	fi
-	if [ "$targetOS" == LION ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrGreen}"        Lion"${attrNormal}" - Build RevoBoot for booting 10.7"
-		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
-	else
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrGreen}"        Snow Leopard"${attrNormal}" - Build RevoBoot for booting 10.6"
-		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
-	fi
+	#if [ "$DebugEnabled" == Yes ]; then
+	#	if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        Yes."${attrRed}" Very slow!" ${attrNormal}"Useful for when boot fails."
+	#	((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
+	#else
+	#	if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle DebugMode:"${attrGreen}"        No."${attrNormal}" RevoBoot will show grey Apple logo screen"
+	#	((menuItemNumber++)); TheOutputItems=$TheOutputItems" DebugMode"
+	#fi
 
 	echo ""
 	echo ${attrBlack}"     YOUR SETTINGS:           Description"${attrNormal}
@@ -253,6 +246,14 @@ else
 			echo ${attrBlack}"     BUILD REVOBOOT:          Description"${attrNormal}
 			echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
+			if [ "$targetOS" == LION ]; then
+				if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrGreen}"        Lion"${attrNormal}" - Build RevoBoot for booting 10.7"
+				((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
+			else
+				if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Toggle Target OS:"${attrGreen}"        Snow Leopard"${attrNormal}" - Build RevoBoot for booting 10.6"
+				((menuItemNumber++)); TheOutputItems=$TheOutputItems" Target"
+			fi
+
 			if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Compile"${attrNormal}"                  Compile RevoBoot"
 			((menuItemNumber++)); TheOutputItems=$TheOutputItems" Compile"
 
@@ -261,14 +262,19 @@ else
 				((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
 			fi
 		fi
-	fi
+	else
+		# check for the instance where the compiled files are still in the RevoBoot source folder /sym/i386/
+		# but without the config/settings.h file
+		# if this happens then still show the 'Clean' option to allow removal of them.
+		if [ -d "${revSourceFullWorkingPath}"/sym ] && [ ${compilerExist} == Yes ]; then
+			echo ""
+			echo ${attrBlack}"     BUILD REVOBOOT:          Description"${attrNormal}
+			echo ${attrGrey}"     ------------------------------------------------------------------------"${attrNormal}
 
-	# check for the instance where the compiled files are still in the RevoBoot source folder /sym/i386/
-	# but without the config/settings.h file
-	# if this happens then still show the 'Clean' option to allow removal of them.
-	if [ -d "${revSourceFullWorkingPath}"/sym ] && [ ! -f "${configSETTINGSfile}" ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' complation files"
-		((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
+			if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Clean"${attrNormal}"                    Clean RevoBoots' complation files"
+			((menuItemNumber++)); TheOutputItems=$TheOutputItems" Clean"
+		fi
+
 	fi
 
 	# check for existence of compiled RevoBoot 'boot' file in /sym/i386/ folder.
@@ -348,7 +354,7 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			RefreshMenu
 			;;
 		'BuildUSB')
-			"$scriptDir"/BuildUSB.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "${revStartDir}"
+			"$scriptDir"/BuildUSB.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "${revStartDir}" "${attrGreen}" "${attrRed}" "${attrBlue}" "${attrNormal}"
 			RefreshMenu
 			;;
 		'Help')
@@ -448,9 +454,11 @@ else
 fi
 
 if [ -f "${WorkDir}"/.DebugEnabled ]; then
-	DebugEnabled=`cat "${WorkDir}"/.DebugEnabled`
+	#DebugEnabled=`cat "${WorkDir}"/.DebugEnabled`
+	DebugEnabled="No"
 else
-	DebugEnabled="Yes"	
+	#DebugEnabled="Yes"
+	DebugEnabled="No"
 fi
 
 if [ -f "${WorkDir}"/.targetOS ]; then

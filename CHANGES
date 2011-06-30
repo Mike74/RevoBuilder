@@ -1,3 +1,10 @@
+RevoBuilder V1.0.18
+==================
+- Fixed a bug in the menu where a heading wasn't shown under certain conditions.
+- Moved the toggle target OS option to the build section in the menu.
+- Removed the toggle debug mode option from the menu as it wasn't complete and it's better to do it manually when editing the settings.h file.
+- Removed colour setup from BuildUSB.sh as they're now passed from Revstart script.
+
 RevoBuilder V1.0.17
 ==================
 - Some changes to the build a bootable flash drive option. Lots more to do on this yet - I consider this part as a work-in-progress.

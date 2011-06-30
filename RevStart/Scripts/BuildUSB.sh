@@ -5,11 +5,15 @@
 
 clear
 
-if [ "$#" -eq 4 ]; then
+if [ "$#" -eq 8 ]; then
 	GSD="$1"
 	revSourceFullWorkingPath="$2"
 	targetOS="$3"
 	revStartDir="$4"
+	attrGreen="$5"
+	attrRed="$6"
+	attrBlue="$7"
+	attrNormal="$8"
 
 	chameleonLoadersDir="${revStartDir}"/Resources/Chameleon_Files
 
@@ -20,27 +24,15 @@ if [ "$#" -eq 4 ]; then
 		echo "DEBUG: passed argument for revSourceFullWorkingPath = $revSourceFullWorkingPath"
 		echo "DEBUG: passed argument for targetOS = $targetOS"
 		echo "DEBUG: passed argument for revStartDir = $revStartDir"
+		echo "DEBUG: passed argument for attrGreen = $attrGreen"
+		echo "DEBUG: passed argument for attrRed = $attrRed"
+		echo "DEBUG: passed argument for attrBlue = $attrBlue"
+		echo "DEBUG: passed argument for attrNormal = $attrNormal"
 	fi
-
 else
 	echo "BuildUSB.sh: Error - wrong number of values passed"
 	exit 9
 fi
-
-
-
-# --------------------------------------------------------------
-# Initialise colours for using in the Menu
-
-attrBlackBold=$( echo -en '\033[1m' )
-attrGreen=$( echo -en '\033[32m' )
-attrRed=$( echo -en '\033[1;31m' )
-attrBlue=$( echo -en '\033[36m' )
-attrGrey=$( echo -en '\033[1;37m' )
-attrBlack=$( echo -en '\033[30m' )
-attrNormal=$( echo -en '\033[0m'; echo )
-
-# --------------------------------------------------------------
 
 
 #--------------
@@ -52,13 +44,11 @@ echo "====================================================="
 echo "        Build a bootable USB flash drive."
 echo "*****************************************************"
 echo ""
-echo "You've compiled RevoBoot for ${targetOS} so lets test it."
-echo ""
-echo "First, I require the following to be true:"
-echo "1) You have initialised a flash drive using - "
-echo "   Mac OS Extended format, with a GUID partition table."
-echo "2) The volume name is REVOBOOTUSB." 
-echo "3) The flash drive is inserted and mounted."
+echo "Before we being you need to do the following:"
+echo "* Initialise a flash drive using - "
+echo "  Mac OS Extended format, with a GUID partition table."
+echo "* Name the flash drive REVOBOOTUSB." 
+echo "* Have the flash drive mounted."
 echo ""
 
 flashDrive="/Volumes/REVOBOOTUSB"
@@ -70,14 +60,14 @@ if [ ! -d ${flashDrive} ]; then
 	read keypress
 else
 	# found mounted volume
-	echo ${attrGreen}"${flashDrive} is found and mounted."${attrNormal}
+	echo ${attrGreen}"CHECK: ${flashDrive} is found and mounted."${attrNormal}
 
 	# Check it's hfs format - note: USBFlashDrive will hold value like /dev/disk2s1
 	USBFlashDrive=$( df | grep /Volumes/REVOBOOTUSB | awk '{print $1}' )
 	if [ "$( fstyp "$USBFlashDrive" | grep hfs )" ]; then
-		echo ${attrGreen}"${flashDrive} is formatted as HFS"${attrNormal}
+		echo ${attrGreen}"CHECK: ${flashDrive} is formatted as HFS"${attrNormal}
 	else
-		echo ${attrRed}"${flashDrive} is not HFS formatted"${attrNormal}
+		echo ${attrRed}"CHECK: ${flashDrive} is not HFS formatted"${attrNormal}
 		echo ""
 		echo "Please re-format ${flashDrive} and try this option again."
 		echo "Press any key to return to the main menu."
@@ -107,12 +97,13 @@ else
 		if [ "${volumeName[$c]}" = "REVOBOOTUSB" ]; then
 			flashDriveDeviceNumber=${deviceNumber[$c]}
 		else
-			echo "("${c}")" ${attrBlue}${volumeName[$c]}${attrNormal}
+				echo "("${c}")" ${attrBlue}${volumeName[$c]}${attrNormal}
 		fi
 
 	done
 	echo ""
-	echo "Type a number of the ${targetOS} system you want RevoBoot to boot"
+	echo "Type the number of the ${targetOS} system you want to boot"
+	echo "or press ENTER to return to the main menu"
 	menuItemsArray=(${volumeName})
 	read userInput
 
