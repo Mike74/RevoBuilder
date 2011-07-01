@@ -452,8 +452,18 @@ ConfigWriteLine "GRAPHICS.C" "-" "${configSETTINGSfile}"
 # --------------------------------------------------------
 # Get current screen resolution and add it
 if [ "$AutoGFX" == Yes ]; then
-	Width=`system_profiler SPDisplaysDataType | grep Resolution | awk '{print $2}'`
-	Height=`system_profiler SPDisplaysDataType | grep Resolution | awk '{print $4}'`
+	# This will fail on non-english language systems - Thanks for the note.
+	#Width=`system_profiler SPDisplaysDataType | grep Resolution | awk '{print $2}'`
+	#Height=`system_profiler SPDisplaysDataType | grep Resolution | awk '{print $4}'`
+	
+	# Resorting to a method I had previously used.
+	# I will need to check this though as I have a feeling this failed to work for STLVNUB.
+	ioregDims="$( ioreg -lw0 | grep "dims" )"
+	startPosDims=${ioregDims##*\"dims\"=<}
+	x="$( echo ${startPosDims:2:2} | tr '[:lower:]' '[:upper:]')""$( echo ${startPosDims:0:2} | tr '[:lower:]' '[:upper:]')"
+	y="$( echo ${startPosDims:10:2} | tr '[:lower:]' '[:upper:]')""$( echo ${startPosDims:8:2} | tr '[:lower:]' '[:upper:]')"
+	Width="$( echo "ibase=16; ${x}" |bc )"
+	Height="$( echo "ibase=16; ${y}" |bc )"
 else
 	Width=1024
 	Height=768
