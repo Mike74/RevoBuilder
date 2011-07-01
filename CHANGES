@@ -1,3 +1,7 @@
+RevoBuilder V1.0.20
+==================
+- Added error checking to the screen resolution detection code in config.sh.
+
 RevoBuilder V1.0.19
 ==================
 - Changed the code in config.sh for detecting the currently used screen resolution. Replaced it with some older code which needs testing to see if it works 100% for everyone.
