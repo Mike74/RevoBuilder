@@ -452,6 +452,7 @@ ConfigWriteLine "GRAPHICS.C" "-" "${configSETTINGSfile}"
 # --------------------------------------------------------
 # Get current screen resolution and add it
 if [ "$AutoGFX" == Yes ]; then
+	ret=0
 	ioregDims="$( ioreg -lw0 | grep "dims" )"
 	startPosDims=${ioregDims##*\"dims\"=<}
 	x="$( echo ${startPosDims:2:2} | tr '[:lower:]' '[:upper:]')""$( echo ${startPosDims:0:2} | tr '[:lower:]' '[:upper:]')"
@@ -465,20 +466,19 @@ if [ "$AutoGFX" == Yes ]; then
 			Height="$( echo "ibase=16; ${y}" |bc )"
 		else
 			echo "Resolution detection failed. Defaulting to 1024x768"
-			Width=1024
-			Height=768
+			ret=1
 		fi
 	else
 		echo "Resolution detection failed. Defaulting to 1024x768"
-		Width=1024
-		Height=768
+		ret=1
 	fi
 else
+	ret=1
+fi
+if [ ${ret} = 1 ]; then
 	Width=1024
 	Height=768
 fi
-#Width="$(/usr/sbin/system_profiler SPDisplaysDataType | grep Resolution | awk '{print $2}')"
-#Height="$( /usr/sbin/system_profiler SPDisplaysDataType | grep Resolution | awk '{print $4}' )"
 ConfigAddDefine "STATIC_SCREEN_WIDTH" "${Width}"
 ConfigAddDefine "STATIC_SCREEN_HEIGHT" "${Height}"
 
