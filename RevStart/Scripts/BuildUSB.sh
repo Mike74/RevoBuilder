@@ -129,28 +129,33 @@ else
 				echo "-----------------------------------------------------"
 				diskutil enableOwnership $flashDrive
 
+				echo "-----------------------------------------------------"
 				# Write Chameleon stage 0 and stage 1 code to flashdrive - disk number is stored in flashDriveDeviceNumber.
 				cd ${chameleonLoadersDir}
-
 				rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber | tr -d "/dev/disk\"s1")
 				echo "issuing command: ./fdisk440 -f boot0 -u -y $rawDisk"
 				./fdisk440 -f boot0 -u -y $rawDisk
 
-				rawDiskSlice=$( echo "/dev/disk2s1" | sed 's,/dev/disk,rdisk,' )
+				echo "-----------------------------------------------------"
+				rawDiskSlice=$( echo "${flashDriveDeviceNumber}" | sed 's,/dev/disk,rdisk,' )
 				echo "issuing command: dd if=boot1h of=/dev/$rawDiskSlice" 
 				dd if=boot1h of="/dev/$rawDiskSlice"
 
+				echo "-----------------------------------------------------"
 				echo "Copy RevoBoot stage 2 boot file"
 				cp "${revSourceFullWorkingPath}"/sym/i386/boot $flashDrive
 
+				echo "-----------------------------------------------------"
 				echo "Creating folder structure"
 				mkdir -p $flashDrive/Extra/ACPI/ $flashDrive/Extra/Extensions/ $flashDrive/Library/Preferences/SystemConfiguration/ $flashDrive/System/Library/Caches/com.apple.kext.caches/Startup/ $flashDrive/System/Library/Extensions/
 
-				echo "Copying /Volumes/"${systemToBoot}"/System/Library/Extensions/* to $flashDrive/System/Library/Extensions"
-				echo "Note: Process depends on speed of your USB. It could take a some minutes."
+				echo "-----------------------------------------------------"
+				echo "Copying /Volumes/"${systemToBoot}"/System/Library/Extensions/*"
+				echo "Note: This could take a couple of minutes depending on your hardware."
 				cp -R /Volumes/"${systemToBoot}"/System/Library/Extensions/* $flashDrive/System/Library/Extensions
 
-				echo "Copying /Volumes/"${systemToBoot}"/mach_kernel to root of $flashDrive"
+				echo "-----------------------------------------------------"
+				echo "Copying /Volumes/"${systemToBoot}"/mach_kernel"
 				cp /Volumes/"${systemToBoot}"/mach_kernel $flashDrive
 				
 				echo ""
@@ -165,6 +170,7 @@ else
 				else
 					verbosemode=""
 				fi
+				echo "-----------------------------------------------------"
 				echo "Do you want to boot the kernel in 32 or 64bit mode?"
 				echo "Press 3 for 32bit or 6 for 64bit"
 				read userverbose
@@ -195,7 +201,8 @@ else
 	<string>$OSVersion</string>
 </dict>
 </plist>" > $flashDrive/Library/Preferences/SystemConfiguration/com.apple.Boot.plist
-			
+
+				echo "-----------------------------------------------------"
 				echo "Done - press any key to return to the main menu"
 				read keypress
 			else

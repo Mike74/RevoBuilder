@@ -1,3 +1,7 @@
+RevoBuilder V1.0.22
+==================
+- Fixed a bug in BuildUSB.sh where it would always write the Chameleon stage 1 boot file to rdisk2s1 instead of the correct partition.
+
 RevoBuilder V1.0.21
 ==================
 - Change SSDT_DATA / SSDTDATA to SSDT_SATA / SSDTSATA in config.h - Thanks STLVNUB
