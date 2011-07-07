@@ -1,3 +1,7 @@
+RevoBuilder V1.0.21
+==================
+- Change SSDT_DATA / SSDTDATA to SSDT_SATA / SSDTSATA in config.h - Thanks STLVNUB
+
 RevoBuilder V1.0.20
 ==================
 - Added error checking to the screen resolution detection code in config.sh.

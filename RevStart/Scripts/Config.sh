@@ -114,8 +114,8 @@ case $toCheck in
 		StaticSSDTGPU=1 ;;
 	'SSDT_PR')
 		StaticSSDTPR=1 ;;
-	'SSDT_DATA')
-		StaticSSDTDATA=1 ;;
+	'SSDT_SATA')
+		StaticSSDTSATA=1 ;;
 	'SSDT_USB')
 		StaticSSDTUSB=1 ;;
 	'EFI')
@@ -301,7 +301,7 @@ ConfigAddDefine "STATIC_HPET_TABLE_INJECTION" "${StaticHPET}"
 ConfigAddDefine "STATIC_SSDT_TABLE_INJECTION" "${StaticSSDT}"
 ConfigAddDefine "STATIC_SSDT_GPU_TABLE_INJECTION" "${StaticSSDTGPU}"
 ConfigAddDefine "STATIC_SSDT_PR_TABLE_INJECTION" "${StaticSSDTPR}"
-ConfigAddDefine "STATIC_SSDT_SATA_TABLE_INJECTION" "${StaticSSDTDATA}"
+ConfigAddDefine "STATIC_SSDT_SATA_TABLE_INJECTION" "${StaticSSDTSATA}"
 ConfigAddDefine "STATIC_SSDT_USB_TABLE_INJECTION" "${StaticSSDTUSB}"
 
 # Check if using static DSDT
