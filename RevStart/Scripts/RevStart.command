@@ -390,7 +390,7 @@ RefreshMenu
 
 clear; echo
 if [ "`whoami`" != "root" ]; then
-	echo "Welcome to Revstart."
+	echo "Welcome to RevoBuilder."
 	echo "Running this requires you to be root."
 	echo ""
 	sudo "$0"

@@ -125,7 +125,7 @@ else
 			echo ""
 			echo "Press y to proceed, or any other key to return to main menu"
 			read userproceed
-			if [ "$userproceed" = "y" ]; then
+			if [ "$userproceed" = "y" ] || [ "$userproceed" = "Y" ] ; then
 				echo "-----------------------------------------------------"
 				diskutil enableOwnership $flashDrive
 
@@ -157,8 +157,11 @@ else
 				echo "-----------------------------------------------------"
 				echo "Copying /Volumes/"${systemToBoot}"/mach_kernel"
 				cp /Volumes/"${systemToBoot}"/mach_kernel $flashDrive
+
+				echo "-----------------------------------------------------"
+				echo "Copying /Volumes/"${systemToBoot}"/System/Library/Caches/com.apple.kext.caches/Startup/"
+				cp -R /Volumes/"${systemToBoot}"/System/Library/Caches/com.apple.kext.caches/Startup/* $flashDrive/System/Library/Caches/com.apple.kext.caches/Startup/
 				
-				echo ""
 				echo "-----------------------------------------------------"
 				echo "Create com.apple.Boot.plist"
 				echo "-----------------------------------------------------"

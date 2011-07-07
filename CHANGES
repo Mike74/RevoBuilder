@@ -1,3 +1,7 @@
+RevoBuilder V1.0.23
+==================
+- Added copying of /System/Library/Caches/com.apple.kext.caches/Startup/ to  USB flash drive
+
 RevoBuilder V1.0.22
 ==================
 - Fixed a bug in BuildUSB.sh where it would always write the Chameleon stage 1 boot file to rdisk2s1 instead of the correct partition.
