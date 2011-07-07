@@ -1,3 +1,7 @@
+RevoBuilder V1.0.24
+==================
+- Attempt at making the BuildUSB script more complete by detecting the use of the PRE_LINKED_KERNEL_SUPPORT directive in settings.h. If found, include the system caches on the USB, otherwise copy /S*/L*/E* to the USB and then look for FakeSMC.kext to determine whether or not the USB can be booted. If not, then advise the user to manually add their /Extra kexts.
+
 RevoBuilder V1.0.23
 ==================
 - Added copying of /System/Library/Caches/com.apple.kext.caches/Startup/ to  USB flash drive

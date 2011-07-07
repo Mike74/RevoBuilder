@@ -354,7 +354,7 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			RefreshMenu
 			;;
 		'BuildUSB')
-			"$scriptDir"/BuildUSB.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "${revStartDir}" "${attrGreen}" "${attrRed}" "${attrBlue}" "${attrNormal}"
+			"$scriptDir"/BuildUSB.sh "${GSD}" "${revSourceFullWorkingPath}" "${targetOS}" "${revStartDir}" "${configSETTINGSfile}" "${attrGreen}" "${attrRed}" "${attrBlue}" "${attrNormal}"
 			RefreshMenu
 			;;
 		'Help')

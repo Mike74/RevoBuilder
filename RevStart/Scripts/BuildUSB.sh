@@ -1,19 +1,20 @@
-#!/bin/bash
+!/bin/bash
 
 # Receives passed values for É..
 # for example: 
 
 clear
 
-if [ "$#" -eq 8 ]; then
+if [ "$#" -eq 9 ]; then
 	GSD="$1"
 	revSourceFullWorkingPath="$2"
 	targetOS="$3"
 	revStartDir="$4"
-	attrGreen="$5"
-	attrRed="$6"
-	attrBlue="$7"
-	attrNormal="$8"
+	configSETTINGSfile="$5"
+	attrGreen="$6"
+	attrRed="$7"
+	attrBlue="$8"
+	attrNormal="$9"
 
 	chameleonLoadersDir="${revStartDir}"/Resources/Chameleon_Files
 
@@ -24,6 +25,7 @@ if [ "$#" -eq 8 ]; then
 		echo "DEBUG: passed argument for revSourceFullWorkingPath = $revSourceFullWorkingPath"
 		echo "DEBUG: passed argument for targetOS = $targetOS"
 		echo "DEBUG: passed argument for revStartDir = $revStartDir"
+		echo "DEBUG: passed argument for configSETTINGSfile = $configSETTINGSfile"
 		echo "DEBUG: passed argument for attrGreen = $attrGreen"
 		echo "DEBUG: passed argument for attrRed = $attrRed"
 		echo "DEBUG: passed argument for attrBlue = $attrBlue"
@@ -150,21 +152,54 @@ else
 				mkdir -p $flashDrive/Extra/ACPI/ $flashDrive/Extra/Extensions/ $flashDrive/Library/Preferences/SystemConfiguration/ $flashDrive/System/Library/Caches/com.apple.kext.caches/Startup/ $flashDrive/System/Library/Extensions/
 
 				echo "-----------------------------------------------------"
-				echo "Copying /Volumes/"${systemToBoot}"/System/Library/Extensions/*"
-				echo "Note: This could take a couple of minutes depending on your hardware."
-				cp -R /Volumes/"${systemToBoot}"/System/Library/Extensions/* $flashDrive/System/Library/Extensions
-
-				echo "-----------------------------------------------------"
 				echo "Copying /Volumes/"${systemToBoot}"/mach_kernel"
 				cp /Volumes/"${systemToBoot}"/mach_kernel $flashDrive
 
-				echo "-----------------------------------------------------"
-				echo "Copying /Volumes/"${systemToBoot}"/System/Library/Caches/com.apple.kext.caches/Startup/"
-				cp -R /Volumes/"${systemToBoot}"/System/Library/Caches/com.apple.kext.caches/Startup/* $flashDrive/System/Library/Caches/com.apple.kext.caches/Startup/
+				# This is what happens next:
+				# Look at current RevoBoot source to see if PreLinked kernel directive is enabled
+				# if enabled then presume user has previously built their kernelcache to include all kexts required to boot, so include the cache.
+				# if not enabled then two things must happen otherwise the USB won't boot the systemm
+				#     1) don't include /S*/L*/Caches/com.apple.kext.caches/Startup/Extensions.mkext
+				#     2) Check for FakeSMC.kext in the USB booters' /S*/L*/E*
+				#	 If not there then we need the user's /Extra kexts copied to the USB booters' /S*/L*/E*
+				#        To do that, ask the user to manually drag and drop kexts from their /Extra folder
+				#        on to the USB's /S*/L*/E* folder. Ownership & Permissions will be set due to enableOwnership.
+
+				isPrelinkedEnabled=$( cat ${configSETTINGSfile} | grep PRE_LINKED_KERNEL_SUPPORT | awk '{print $3}' )
+				if [ "$isPrelinkedEnabled" = "1" ]; then 
+					echo "-----------------------------------------------------"
+					echo ${attrGreen}"RevoBoot was compiled with PRE_LINKED_KERNEL_SUPPORT enabled"${attrNormal}
+					echo "Copying /Volumes/"${systemToBoot}"/System/Library/Caches/com.apple.kext.caches/Startup/"
+					cp -R /Volumes/"${systemToBoot}"/System/Library/Caches/com.apple.kext.caches/Startup/* $flashDrive/System/Library/Caches/com.apple.kext.caches/Startup/
+				else
+					echo "-----------------------------------------------------"
+					echo ${attrGreen}"RevoBoot was compiled with PRE_LINKED_KERNEL_SUPPORT disabled"${attrNormal}
+					echo "Copying /Volumes/"${systemToBoot}"/System/Library/Extensions/*"
+					echo "Note: This could take a couple of minutes depending on your hardware."
+					#cp -R /Volumes/"${systemToBoot}"/System/Library/Extensions/* $flashDrive/System/Library/Extensions
+					echo ${attrGreen}"Done"${attrNormal}
+					echo "-----------------------------------------------------"
+					# check to see if FakeSMC.kext is in $flashDrive/System/Library/Extensions
+					if [ ! -d "$flashDrive/System/Library/Extensions/FakeSMC.kext" ] && [ ! -d "$flashDrive/System/Library/Extensions/fakesmc.kext" ]; then
+						echo ${attrRed}"*** PLEASE NOTE ***"${attrNormal}
+						echo "For your USB to be bootable, you must add the kexts required from your"
+						echo "/Extra folder in to $flashDrive/System/Library/Extensions/"
+						echo "You can drag and drop them using the Finder as Ownership & Permissions"
+						echo "should be set for you as enableOwnership has been enabled for the USB."
+						echo "Let this process finish, then do it before testing.."
+						echo "I recommend you select to enable verbose mode next."
+					else
+						echo "-----------------------------------------------------"
+						echo ${attrGreen}"Found: FakeSMC.kext in $flashDrive/System/Library/Extensions/"
+						echo ${attrBlue}"I'm presuming you have all the kexts need in /S*/L*/E* to boot your"
+						echo "system. If not, please copy any extra kexts you know your system needs"
+						echo "to $flashDrive/System/Library/Extensions/ before testing or"
+						echo "you won't have a fully functioning system."${attrNormal}
+					fi
+				fi
 				
 				echo "-----------------------------------------------------"
-				echo "Create com.apple.Boot.plist"
-				echo "-----------------------------------------------------"
+				echo "Let's build your com.apple.Boot.plist"
 				echo "Do you want to enable verbose mode?"
 				echo "Press y for yes or n for no"
 				read userverbose
