@@ -323,6 +323,9 @@ echo "
 	#define DROP_FACTORY_SSDT_TABLES		1	// Set to 1 by default (this setting is required).
 												//
 												// Note: Do not change this setting (must drop SSDT tables).
+
+	#define NUMBER_OF_TURBO_STATES			0	// Set to 4 by default.
+
 #else
 	#define DROP_FACTORY_SSDT_TABLES		0	// Set to 0 by default. Use 1 with caution (might disable SpeedStep).
 #endif" >> "${configSETTINGSfile}"
@@ -354,7 +357,6 @@ ConfigWriteLine "CPU.C" "-" "${configSETTINGSfile}"
 ConfigAddDefine "USE_STATIC_CPU_DATA" "0"
 ConfigAddDefine "CPU_VENDOR_ID" "CPU_VENDOR_INTEL // CPU_VENDOR_AMD is not supported."
 ConfigAddDefine "OC_BUSRATIO_CORRECTION" "0"
-ConfigAddDefine "NUMBER_OF_TURBO_STATES" "4"
 ConfigAddDefine "BOOT_TURBO_RATIO" "0"
 if [ "$DebugEnabled" == Yes ]; then
 	ConfigAddDefine "DEBUG_CPU" "1"

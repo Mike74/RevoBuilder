@@ -176,7 +176,7 @@ else
 					echo ${attrGreen}"RevoBoot was compiled with PRE_LINKED_KERNEL_SUPPORT disabled"${attrNormal}
 					echo "Copying /Volumes/"${systemToBoot}"/System/Library/Extensions/*"
 					echo "Note: This could take a couple of minutes depending on your hardware."
-					#cp -R /Volumes/"${systemToBoot}"/System/Library/Extensions/* $flashDrive/System/Library/Extensions
+					cp -R /Volumes/"${systemToBoot}"/System/Library/Extensions/* $flashDrive/System/Library/Extensions
 					echo ${attrGreen}"Done"${attrNormal}
 					echo "-----------------------------------------------------"
 					# check to see if FakeSMC.kext is in $flashDrive/System/Library/Extensions
