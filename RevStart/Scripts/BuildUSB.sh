@@ -219,9 +219,11 @@ else
 				fi
 				if [ $targetOS = "SNOW_LEOPARD" ]; then
 					cabpHeaderLine="<!DOCTYPE plist PUBLIC -//Apple Computer//DTD PLIST 1.0//EN http://www.apple.com/DTDs/PropertyList-1.0.dtd>"
+					cabpHeaderLinePlist="<plist version=1.0>"
 					OSVersion="10.6"
 				else
 					cabpHeaderLine="<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+					cabpHeaderLinePlist="<plist version=\"1.0\">"
 					OSVersion="10.7"
 				fi
 				# Grab UUID of selected volume for adding to com.apple.Boot.plist
@@ -229,7 +231,7 @@ else
 
 				echo "<?xml version=1.0 encoding=UTF-8?>
 "$cabpHeaderLine"
-<plist version=1.0>
+"$cabpHeaderLinePlist"
 <dict>
 	<key>Kernel</key>
 	<string>mach_kernel</string>
