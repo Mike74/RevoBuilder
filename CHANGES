@@ -1,3 +1,8 @@
+RevoBuilder V1.0.26
+==================
+- Amended config.h to match latest changes to STATIC_ECDT_TABLE_INJECTION.
+- Amend BuildUSB.sh to set header of com.apple.Boot.plist to use appropriate string per OS version.
+
 RevoBuilder V1.0.25
 ==================
 - Amended config.sh to suit RevoBoot v1.0.22.

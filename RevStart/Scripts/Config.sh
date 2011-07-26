@@ -102,8 +102,8 @@ case $toCheck in
 		StaticAPIC2=1 ;;
 	'DSDT')
 		StaticDSDT=1 ;;
-	'ECDS')
-		StaticECDS=1 ;;
+	'ECDT')
+		StaticECDT=1 ;;
 	'FACS')
 		StaticFACS=1 ;;
 	'HPET')
@@ -295,7 +295,7 @@ echo "
 ConfigAddDefine "STATIC_APIC_TABLE_INJECTION" "${StaticAPIC}"
 ConfigAddDefine "STATIC_APIC2_TABLE_INJECTION" "${StaticAPIC2}"
 ConfigAddDefine "STATIC_DSDT_TABLE_INJECTION" "${StaticDSDT}"
-ConfigAddDefine "STATIC_ECDS_TABLE_INJECTION" "${StaticECDS}"
+ConfigAddDefine "STATIC_ECDT_TABLE_INJECTION" "${StaticECDT}"
 ConfigAddDefine "STATIC_FACS_TABLE_INJECTION" "0" #"${StaticFACS}"
 ConfigAddDefine "STATIC_HPET_TABLE_INJECTION" "${StaticHPET}"
 ConfigAddDefine "STATIC_SSDT_TABLE_INJECTION" "${StaticSSDT}"
