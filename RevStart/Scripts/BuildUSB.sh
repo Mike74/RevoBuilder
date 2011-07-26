@@ -221,7 +221,7 @@ else
 					cabpHeaderLine="<!DOCTYPE plist PUBLIC -//Apple Computer//DTD PLIST 1.0//EN http://www.apple.com/DTDs/PropertyList-1.0.dtd>"
 					OSVersion="10.6"
 				else
-					cabpHeaderLine="<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">"
+					cabpHeaderLine="<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
 					OSVersion="10.7"
 				fi
 				# Grab UUID of selected volume for adding to com.apple.Boot.plist
