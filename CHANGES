@@ -1,3 +1,7 @@
+RevoBuilder V1.0.27
+==================
+- Amend BuildUSB.sh to write the stage 0 loader to more than the 1st partition. Useful for writing to an HDD partition
+
 RevoBuilder V1.0.26
 ==================
 - Amended config.h to match latest changes to STATIC_ECDT_TABLE_INJECTION.

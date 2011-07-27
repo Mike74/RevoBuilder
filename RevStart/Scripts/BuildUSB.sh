@@ -120,7 +120,7 @@ else
 			echo "Next step is to prepare the REVOBOOTUSB flash drive"
 
 			#ÊGet user to double check drive before continuing
-			rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber | tr -d "/dev/disk\"s1")
+			rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber)
 			echo ""
 			echo ${attrRed}"I will be writing to $rawDisk. "
 			echo "Please confirm this is correct before continuing."${attrNormal}
@@ -134,7 +134,7 @@ else
 				echo "-----------------------------------------------------"
 				# Write Chameleon stage 0 and stage 1 code to flashdrive - disk number is stored in flashDriveDeviceNumber.
 				cd ${chameleonLoadersDir}
-				rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber | tr -d "/dev/disk\"s1")
+				rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber | tr -d "/dev/disk\"s123456789")
 				echo "issuing command: ./fdisk440 -f boot0 -u -y $rawDisk"
 				./fdisk440 -f boot0 -u -y $rawDisk
 
