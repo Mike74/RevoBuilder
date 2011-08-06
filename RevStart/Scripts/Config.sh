@@ -423,7 +423,11 @@ ConfigAddDefine "STATIC_MODEL_NAME" "{ ${macModelString} }"
 # --------------------------------------------------------
 # Get Serial Number
 systemSerial=$( ioreg -p "IOACPIPlane" -lw0 | grep "IOPlatformSerialNumber" | awk '{print $4}' )
-ConfigAddDefine "STATIC_SMSERIALNUMBER" "${systemSerial}"
+if [ ! $systemSerial ]; then
+	ConfigAddDefine "STATIC_SMSERIALNUMBER" "PLEASEFIND1"
+else
+	ConfigAddDefine "STATIC_SMSERIALNUMBER" "${systemSerial}"
+fi
 
 
 # --------------------------------------------------------
