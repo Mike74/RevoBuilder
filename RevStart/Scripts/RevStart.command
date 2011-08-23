@@ -280,7 +280,7 @@ else
 	# check for existence of compiled RevoBoot 'boot' file in /sym/i386/ folder.
 	# if there then offer option of building a bootable USB flash drive.
 	if [ -f "${revSourceFullWorkingPath}"/sym/i386/boot ]; then
-		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Build bootable USB"${attrNormal}"       Create a bootable USB flash drive "${attrRed}"(Alpha)"${attrNormal}
+		if [ $menuItemNumber -le 9 ]; then pad=" "; else pad=""; fi ; echo "$pad("${menuItemNumber}") "${attrBlue}"Build bootable USB"${attrNormal}"       Create a bootable USB flash drive "${attrRed}"(Beta)"${attrNormal}
 		((menuItemNumber++)); TheOutputItems=$TheOutputItems" BuildUSB"
 	fi
 fi
