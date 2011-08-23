@@ -98,10 +98,11 @@ else
 		# remember devicenumber for REVOBOOTUSB
 		if [ "${volumeName[$c]}" = "REVOBOOTUSB" ]; then
 			flashDriveDeviceNumber=${deviceNumber[$c]}
+			# Strip device number from string. For Example: '/dev/disk3s1' will become '3'
+			flashDriveDeviceNumberSubString=`echo $flashDriveDeviceNumber | cut -d's' -f 2 | cut -d'k' -f 2`
 		else
-				echo "("${c}")" ${attrBlue}${volumeName[$c]}${attrNormal}
+			echo "("${c}")" ${attrBlue}${volumeName[$c]}${attrNormal}
 		fi
-
 	done
 	echo ""
 	echo "Type the number of the ${targetOS} system you want to boot"
@@ -120,7 +121,7 @@ else
 			echo "Next step is to prepare the REVOBOOTUSB flash drive"
 
 			#ÊGet user to double check drive before continuing
-			rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber)
+			rawDisk="/dev/rdisk"$flashDriveDeviceNumberSubString
 			echo ""
 			echo ${attrRed}"I will be writing to $rawDisk. "
 			echo "Please confirm this is correct before continuing."${attrNormal}
@@ -134,7 +135,7 @@ else
 				echo "-----------------------------------------------------"
 				# Write Chameleon stage 0 and stage 1 code to flashdrive - disk number is stored in flashDriveDeviceNumber.
 				cd ${chameleonLoadersDir}
-				rawDisk="/dev/rdisk"$( echo $flashDriveDeviceNumber | tr -d "/dev/disk\"s123456789")
+				rawDisk="/dev/disk"$flashDriveDeviceNumberSubString
 				echo "issuing command: ./fdisk440 -f boot0 -u -y $rawDisk"
 				./fdisk440 -f boot0 -u -y $rawDisk
 
