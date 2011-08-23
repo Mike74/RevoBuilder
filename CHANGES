@@ -1,3 +1,8 @@
+RevoBuilder V1.0.30
+==================
+- Fix bug with identifying RSDT / XSDT table in config.sh
+- Add check for current Booter used before building user config data.
+
 RevoBuilder V1.0.29
 ==================
 - Fix bug for identifying device number of flash drive - thanks for the pointer STLVNUB.

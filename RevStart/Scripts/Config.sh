@@ -270,7 +270,7 @@ ConfigWriteLine "ACPI.C" "-" "${configSETTINGSfile}"
 # RSDT table and re-titles it "XSDT" therefore making this check
 # fail. So need to find another way to get this‰..
 #
-acpiRSDT=$( ioreg -l | grep "RSDT" | awk '{print $6}' )
+acpiRSDT=$( ioreg -lw0 | grep "RSDT" | awk '{print $6}' )
 if [[ $acpiRSDT == *58534454* ]]
 then
   ConfigAddDefine "ACPI_10_SUPPORT" "0"

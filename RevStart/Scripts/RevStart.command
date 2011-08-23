@@ -78,6 +78,36 @@ Target()
 }
 
 # ==============================================================
+# Function to check the bootloader used to boot current system
+BooterCheck()
+{
+	vendor=$( ioreg -p IODeviceTree -l | grep "firmware-vendor" | awk '{print $5}' )
+	if [[ $vendor = *4300680061006d0065006c0065006f006e* ]]; then
+		echo ${attrGreen}"System was booted using Chameleon"${attrNormal}
+		return 0
+	else
+		echo "-----------------------------------------------------------------"
+		echo ${attrRed}"It's recommended to run this from a machine booted from Chameleon"${attrNormal}
+		echo ""
+		echo "If it's your first time using this for RevoBoot then I suggest"
+		echo "rebooting your system using Chameleon and then re-running this."
+		echo ""
+		echo "Type ENTER to return to menu or type R to run anyway"
+		read UserInput
+		while [ "$UserInput" != "" ] && [ "$UserInput" != "R" ]
+		do
+			echo "Type ENTER to return to menu or type R to run anyway"
+			read UserInput
+		done
+		if [ "$UserInput" == "R" ]; then
+			return 0
+		else
+			return 1
+		fi
+	fi
+}
+
+# ==============================================================
 # Functions to resize the Terminal window
 # code from http://codesnippets.joyent.com/posts/show/1645
 
@@ -331,10 +361,15 @@ if [ $userInput -eq $userInput 2> /dev/null ] && [ -n "$userInput" ]; then
 			RefreshMenu
 			;;
 		'Config')
-			"$scriptDir"/MakeACPI.sh "${GSD}" "${WorkDir}"
-			"$scriptDir"/DoPrivateDataStructs.sh "${GSD}" "${revStartDir}" "${WorkDir}"
-			"$scriptDir"/"$a".sh "${GSD}" "${configACPIfile}" "${configEFIfile}" "${configSMBIOSfile}" "${configSETTINGSfile}" "${WorkDir}" "${DebugEnabled}" "${targetOS}"
-			# Call Edit.sh
+			# Check to see if the current system was booted with Chameleon or not
+			BooterCheck
+			returnValue=$?
+			if [ ${returnValue} = 0 ]; then
+				"$scriptDir"/MakeACPI.sh "${GSD}" "${WorkDir}"
+				"$scriptDir"/DoPrivateDataStructs.sh "${GSD}" "${revStartDir}" "${WorkDir}"
+				"$scriptDir"/"$a".sh "${GSD}" "${configACPIfile}" "${configEFIfile}" "${configSMBIOSfile}" "${configSETTINGSfile}" "${WorkDir}" "${DebugEnabled}" "${targetOS}"
+				# Call Edit.sh
+			fi
 			RefreshMenu
 			;;
 		'Edit')
